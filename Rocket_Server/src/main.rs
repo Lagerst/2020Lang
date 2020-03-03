@@ -6,23 +6,36 @@ use rocket::response::content;
 extern crate postgres;
 use postgres::{Client, NoTls};
 
-fn hash_string(hashsource: String) -> u32 {
+//3 minutes check
+fn time_check(_time: u32) -> bool {
+    false
+}
+
+//Algorithm :
+//  hashstring(username, current_time) == password_in
+//  && time must be in 3 minutes
+fn hash_string(hashsource: String, time: String) -> u32 {
     let (mut hash, m) = (0 as u32, 9973);
     for c in hashsource.chars() {
+        hash = hash * 256 + c as u32;
+        hash = hash % m;
+    }
+    for c in time.chars() {
         hash = hash * 256 + c as u32;
         hash = hash % m;
     }
     hash
 }
 
-fn postgres_connect(id_user: String, password_in: u32) -> Result<i32, postgres::Error> {
+fn postgres_connect(id_user: String, time:String, password_in: u32) -> Result<i32, postgres::Error> {
     let mut client = Client::connect("host=localhost port=5432 dbname=Dot user=postgres password=123", NoTls)?;
     let mut status: i32 = -1;
 
     for row in client.query("SELECT password, status FROM users where id = $1", &[&id_user])? {
         let password: String = row.get(0);
         status = row.get(1);
-        if hash_string(password) != password_in {
+        println!("password: {} , {}", hash_string(password.clone(), time.clone()), password_in.clone());
+        if hash_string(password, time.clone()) != password_in {
             status = -2;
             break;
         }
@@ -46,47 +59,55 @@ fn post_handler(id: usize) -> status::Accepted<String> {
     status::Accepted(Some(format!("id: '{}'", id)))
 }
 
-#[get("/valid_check/<id>")]
-fn valid_check(id: String) -> content::Json<String> {
+#[get("/valid_check/<id>/<current_time>")]
+fn valid_check(id: String, current_time:String) -> content::Json<String> {
     let result: String;
-    match postgres_connect(id, 0) {
-        Ok(s)
-            => {
-                if s != -1 {
-                    result = "Pass".to_string();
-                } else {
-                    result = "User Not Exist".to_string();
+    if time_check(current_time.parse::<u32>().unwrap()) {
+        result = "  Don't hack".to_string();
+    } else {
+        match postgres_connect(id, current_time, 0) {
+            Ok(s)
+                => {
+                    if s != -1 {
+                        result = "Pass".to_string();
+                    } else {
+                        result = "User Not Exist".to_string();
+                    }
                 }
-            }
-        Err(error)
-            => {
-                result = "  Default Error".to_string();
-                println!("      error = {:?}", error)
-            },
+            Err(error)
+                => {
+                    result = "  Default Error".to_string();
+                    println!("      error = {:?}", error)
+                },
+        }
     }
     content::Json(result)
 }
 
-#[get("/login/<id>/<password_in>")]
-fn login_check(id: String, password_in: String) -> content::Json<String> {
+#[get("/login_check/<id>/<current_time>/<password_in>")]
+fn login_check(id: String, current_time:String, password_in: String) -> content::Json<String> {
     let result: String;
-    match postgres_connect(id, password_in.parse::<u32>().unwrap()) {
-        Ok(s)
-            => {
-                match s {
-                    -2  =>  result = "  Password Error".to_string(),
-                    -1  =>  result = "  User Not Exist".to_string(),
-                    1   =>  result = "  Admin User Pass".to_string(),
-                    2   =>  result = "  Normal User Pass".to_string(),
-                    3   =>  result = "  Guest User Pass".to_string(),
-                    _   =>  result = "  Default Error".to_string(),
+    if time_check(current_time.parse::<u32>().unwrap()) {
+        result = "  Don't hack".to_string();
+    } else {
+        match postgres_connect(id, current_time, password_in.parse::<u32>().unwrap()) {
+            Ok(s)
+                => {
+                    match s {
+                        -2  =>  result = "  Password Error".to_string(),
+                        -1  =>  result = "  User Not Exist".to_string(),
+                        1   =>  result = "  Admin User Pass".to_string(),
+                        2   =>  result = "  Normal User Pass".to_string(),
+                        3   =>  result = "  Guest User Pass".to_string(),
+                        _   =>  result = "  Default Error".to_string(),
+                    }
                 }
-            }
-        Err(error)
-            => {
-                result = "  Default Error".to_string();
-                println!("      error = {:?}", error)
-            },
+            Err(error)
+                => {
+                    result = "  Default Error".to_string();
+                    println!("      error = {:?}", error)
+                },
+        }
     }
     content::Json(result)
 }
