@@ -1,0 +1,237 @@
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+     Running `target\debug\advanced_rust.exe`
+--------------------------------------------
+generic() - begin
+  list_max(vec![1,3,5,7,9,11,2]) = 11
+  list_max(vec!['a','b','c','e']) = e
+  Point<i32> = Point {
+    x: 1,
+    y: 2,
+}
+  Point<f32> = Point {
+    x: 1.0,
+    y: 2.0,
+}
+  Point<i32, f32> = PointMixed {
+    x: 1,
+    y: 2.0,
+}
+  Point<f32, i32> = PointMixed {
+    x: 1.0,
+    y: 2,
+}
+  coordinate_i32
+      coordinate_i32.get_x() = 1
+      coordinate_i32.get_y() = 2
+  after coordinate_i32.add(1)
+      coordinate_i32.get_x() = 2
+      coordinate_i32.get_y() = 3
+  coordinateMixed
+      coordinateMixed.x = 5
+      coordinateMixed.y = c
+generic() - end
+--------------------------------------------
+trait() - begin
+  student, name = Jack, age = 10
+  teacher, name = Rose, age = 30
+  student school name = UESTC
+  teacher school name = JLHS
+  Student:
+      name = Jack
+      age = 10
+  Teacher:
+      name = Rose
+      age = 30
+  Trait_bound_Student:
+      name = Jack
+      age = 10
+  Trait_bound_Teacher:
+      name = Rose
+      age = 30
+  in print_all_information:
+      master name = Rose
+      master age = 30
+      student name = Jack
+      student age = 15
+  name = Jase
+trait() - end
+--------------------------------------------
+lifetimes() - begin
+  r = 5
+  longer = "abcde"
+  Info { name: "hello" }
+  Jack meet Rose
+  Student { _name: "Jack" }
+  begin + process + finish
+lifetimes() - end
+--------------------------------------------
+closure() - begin
+  This is a closure!
+  test[0] = 6
+  test[1] = 6
+  test[2] = 6
+  test[3] = 6
+  s = hello
+  n = 5
+  envr_catch = 6
+  v1 = 2
+  v2 = 2
+closure() - end
+--------------------------------------------
+iterator() - begin
+  in v1:
+      v = 1
+      v = 2
+      v = 3
+      At end
+  in v2:
+  v2 = [3, 2, 3]
+  total = 6
+  迭代适配器
+      v1 = [-4, 2, 3]
+      v2 = [-3, 3, 4] = v1.iter().map(|x| x + 1).collect()
+      v1 = [1, 12, 3, 45]
+      v2 = [12, 45] = v1.into_iter().filter(|x| *x > 5).collect()
+  Customize iterator:
+      i = 0, v = 1
+      i = 1, v = 2
+      i = 2, v = 3
+      i = 3, v = 4
+      i = 4, v = 5
+      i = 5, at end
+iterator() - end
+--------------------------------------------
+cargo() - begin
+  cargo run/build --release
+cargo() - end
+--------------------------------------------
+box() - begin
+  b = 5
+box() - end
+--------------------------------------------
+box() - begin
+  func: Rust
+box() - end
+--------------------------------------------
+drop() - begin
+  The dog 1 is born.
+  The dog 2 is born.
+  The dog 3 is born.
+  同名隐藏未调用析构函数，被隐藏的变量离开作用域析构
+  The dog 4 is born.
+  The dog 4 is dead.
+  After function drop(), the dog is dropped.
+drop() - end
+  The dog 3 is dead.
+  The dog 2 is dead.
+  The dog 1 is dead.
+--------------------------------------------
+rc() - begin
+  count after creating a = 1
+  count after bind to b, a count = 2
+  count after bind to c, a count = 3
+  count at end, c finished, a = 2
+rc() - end
+--------------------------------------------
+refcell() - begin
+  a before: Cons(RefCell { value: 5 }, Nil)
+  b before: Cons(RefCell { value: 6 }, Cons(RefCell { value: 5 }, Nil))
+  c before: Cons(RefCell { value: 7 }, Cons(RefCell { value: 5 }, Nil))
+  a after: Cons(RefCell { value: 15 }, Nil)
+  b after: Cons(RefCell { value: 6 }, Cons(RefCell { value: 15 }, Nil))
+  c after: Cons(RefCell { value: 7 }, Cons(RefCell { value: 15 }, Nil))
+refcell() - end
+--------------------------------------------
+advanced_ref() - begin
+  环形链表
+      1, a rc count = 1
+      1, a tail = Some(RefCell { value: Nil })
+      2, a rc count = 2
+      2, b rc count = 1
+      2, b tail = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+      3, a rc count = 2
+      3, b rc count = 2
+  弱引用Weak<T>
+      1, a strong count = 1, weak count = 0
+      1, a tail = Some(RefCell { value: (Weak) })
+      2, a strong count = 1, weak count = 1
+      2, b strong count = 1, weak count = 0
+      2, b tail = Some(RefCell { value: (Weak) })
+      3, a strong count = 1, weak count = 1
+      3, b strong count = 1, weak count = 1
+      3, a tail = Some(RefCell { value: (Weak) })
+advanced_ref() - end
+--------------------------------------------
+tree() - begin
+  leaf parent = None
+   1 leaf strong = 1, weak = 0
+   1 root strong = 1, weak = 0
+   2 root strong = 1, weak = 1
+   2 leaf strong = 2, weak = 0
+  leaf parent = Some(Node { value: 0, parent: RefCell { value: (Weak) }, children: RefCell { value: [Node { value: 1, parent: RefCell { value: (Weak) }, children: RefCell { value: [] } }] } })
+   3 leaf strong = 1, weak = 0
+tree() - end
+--------------------------------------------
+thread() - begin
+  main thread run 0
+  spawn thread run 0
+  spawn thread run 1
+  main thread run 1
+  spawn thread run 2
+  main thread run 2
+  spawn thread run 3
+  main thread run 3
+  spawn thread run 4
+  main thread run 4
+  v = [1, 2, 3]
+  1 Spawn thread Sent: thread
+  1 Main thread Received: thread
+  2 Spawn thread Sent: hi
+  2 Main thread Received: hi
+  2 Spawn thread Sent: from
+  2 Main thread Received: from
+  2 Spawn thread Sent: the
+  2 Main thread Received: the
+  2 Spawn thread Sent: thread
+  2 Main thread Received: thread
+  3 Spawn thread Sent: hi
+  3 Main thread Received: hi
+  3 Spawn thread Sent: hi
+  3 Main thread Received: hi
+  3 Spawn thread Sent: from
+  3 Spawn thread Sent: from
+  3 Main thread Received: from
+  3 Main thread Received: from
+  3 Spawn thread Sent: the
+  3 Main thread Received: the
+  3 Spawn thread Sent: the
+  3 Main thread Received: the
+  3 Spawn thread Sent: thread
+  3 Main thread Received: thread
+  3 Spawn thread Sent: thread
+  3 Main thread Received: thread
+  mutex = Mutex { data: 6 }
+  result = 10
+thread() - end
+--------------------------------------------
+object_oriented() - begin
+  list.average() = 2
+  draw button, width = 50, height = 10, label = button
+  draw select_box, width = 50, height = 10, option = ["Yes", "No", "MayBe"]
+object_oriented() - end
+--------------------------------------------
+pattern() - begin
+  1 match
+  2 if let
+  3 while let
+  4 for
+  5 let
+  6 function
+  x axis
+  found a string
+  first: 1, last: 7
+  x: 4
+  2
+  id: 25
+pattern() - end
+--------------------------------------------

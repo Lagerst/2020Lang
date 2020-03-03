@@ -1,0 +1,190 @@
+    Finished dev [unoptimized + debuginfo] target(s) in 0.03s
+     Running `target\debug\hello_rust.exe`
+--------------------------------------------
+varible() - begin
+  a = 2
+  b = 1
+  hide b
+  b = 1.1
+  MAX_POINT = 100000
+  Hello, world!
+varible() - end
+--------------------------------------------
+type() - begin
+  bool flag = true
+  char a = 'a'
+  char b = '早'
+  i8 c = -128
+  f32 d = 0.0008
+  isize::max_value = 9223372036854775807
+  usize::max_value = 18446744073709551615
+  [u32; 5] array arr = {1,2,3,4,5}
+  show(arr):
+      arr[1] = 1
+      arr[2] = 2
+      arr[3] = 3
+      arr[4] = 4
+      arr[5] = 5
+  tuple tup = (-3,3.69,晚)
+  let (x,y,z) = tup //拆解
+      x = -3, y = 3.69, z = 晚
+type() - end
+--------------------------------------------
+function() - begin
+  This is a function : fn1()
+  This is a function : fn2(i32) :: fn2(-1,2)
+  fn2(i32:-1, i32:2) = 1
+  fn3(i32:-1, i32:2) = 1
+  x = {let y = 1; y} = 1
+function() - end
+--------------------------------------------
+controlflow() - begin
+  check ! flag == true
+  reverse_flag = false
+  loop - begin
+      in loop : 1
+      in loop : 2
+      in loop : 3
+  loop - end
+  result (let - loop) = 40
+  for - begin
+    arr.iter()
+      iterator = 1
+      iterator = 2
+      iterator = 3
+    or &arr
+      iterator = 1
+      iterator = 2
+      iterator = 3
+  for - end
+controlflow() - end
+--------------------------------------------
+ownership() - begin
+  s1 = hello
+  s2 = hello //move s1 to s2, s1 invalid
+  s3 = hello //clone s2 to s3, s2 valid
+  s2 = hello
+  copy trait - 所有的整型,浮点型,布尔值 bool,字符类型 char,元组
+      a = 1, b = 1 // a valid
+  Test
+      String_as_para : Hello
+      st = Hello // st valid
+      take_ownership : Hello
+      st : "Hello" become invalid
+      make_copy : i = 5
+      x : 1 valid
+ownership() - end
+--------------------------------------------
+reference() - begin
+  s.len() = 5
+  s.len() = 12 //modify(& mut s)
+  s2.len() = 12 // s2 = & s
+  cdafter modify:
+      immutable reference ms make s2 invalid
+  ms.len() = 19 //ms = & mut s
+reference() - end
+--------------------------------------------
+slice() - begin
+  s = "hello world"
+  j = &s[0..5] = hello
+  w = &s[6..11] = world
+  a = [1,2,3,4]
+  len(b = &a[1..3]) = 2
+slice() - end
+--------------------------------------------
+struct() - begin
+  user2 = {xiaohuang,89077777,200000,false}
+  a = (10,20)
+  b = (30,11)
+  e = User { name: "xiaoming", account: "80001000", nonce: 20000, active: true }
+  dog = Dog { name: "cc", weight: 100.0, height: 70.0 }
+  method show():
+      dog.get_name() = cc
+      dog.get_weight() = 100
+      dog.get_height() = 70
+      Dog is barking! //static method without "&self"
+struct() - end
+--------------------------------------------
+enum() - begin
+  IPAddress enum:
+      This is an IPv4 Address: 127.0.0.1
+      This is an IPv6 Address: ::1
+  another IPAddress enum:
+      V4: 127.0.0.1
+      Other
+  Message enum:
+      Quit
+      Change a = 1, b = 2, c = 3
+      Move x = 4, y = 5
+      Write 678
+  Option:
+      some_string = a string
+      Do nothing
+      x + y = 10
+      result = plus_one(Option<i32>: y = 5) = 6
+      value = 6
+enum() - end
+--------------------------------------------
+vector() - begin
+  one = v[0] = 1 //"one"
+  one = v[0] = 1 //"*one", the same as previous "one"
+  value = v.get(1) = 2
+  in &v:
+      v[0] = 1
+      v[1] = 2
+      v[2] = 3
+  in &mut v:
+      v[0] = 2
+      v[1] = 3
+      v[2] = 4
+vector() - end
+--------------------------------------------
+string() - begin
+  string s0 = hello
+  string s1 = init //String::from("init")
+  string s2 = init //"init".to_string()
+  s0.push_str(", world!") = hello, world
+  s0.push('!') = hello, world!
+  s0 = hello, world!
+  s3 = s0.clone() + &s2 = hello, world!init
+  ss = format!("{}.{}.{}.{}",String::from("192"),String::from("168"),String::from("0"),String::from("1")) = 192.168.0.1
+  h5 = &hello[0..3] = 你
+  (chars) hello = 你 好
+  (bytes) hello = 228 189 160 229 165 189
+string() - end
+--------------------------------------------
+hashmap() - begin
+  scores = {"Blue": 20, "Red": 10}
+  score = scores["Red"] = 10
+  score = scores["Red"] = 10
+  scores:
+      {"Blue": 20}
+      {"Red": 10}
+  scores = {"Yellow": 30, "Red": 10}
+  wordmap = {"hello": 1, "world": 2, "wonderful": 1}
+  value_count => m:{"what": [1, 2]}
+hashmap() - end
+--------------------------------------------
+module() - begin
+  Inmain: refrigerator produced
+  Inmain: washing machine produced
+  Inmod: refrigerator produced
+  Inmod: washing machine produced
+  Inmod: refrigerator produced
+  Inmod: washing machine produced
+  Inmod_struct: num = 1, name = B
+module() - end
+--------------------------------------------
+error() - begin
+  File open succeed!
+  File open succeed!
+      s = hellotext
+  File open succeed!
+      s = hellotext
+error() - end
+--------------------------------------------
+test() - begin
+  details in /testlib
+  run "cargo test"
+test() - end
+--------------------------------------------
