@@ -1,7 +1,7 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use] extern crate rocket;
-//use rocket::response::status;
+use rocket::response::status;
 use rocket::response::content;
 
 pub mod manage;
@@ -28,6 +28,16 @@ fn index() -> content::Json<&'static str> {
         info    :   "Index".to_string(),
         token   :   "Invalid".to_string()
     }.to_json()
+}
+
+#[get("/<id>")]
+fn echo_handler(id: usize) -> status::Accepted<String> {
+    status::Accepted(Some(format!("id: '{}'", id)))
+}
+
+#[post("/<id>")]
+fn post_handler(id: usize) -> status::Accepted<String> {
+    status::Accepted(Some(format!("id: '{}'", id)))
 }
 
 #[get("/valid_check/<id>/<current_time>")]
