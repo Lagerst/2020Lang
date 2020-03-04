@@ -72,61 +72,117 @@ fn index() -> content::Json<&'static str> {
     ReturnType{
         status  :   "200".to_string(),
         info    :   "Index".to_string(),
-        token   :   "hello, index".to_string()
+        token   :   "Invalid".to_string()
     }.to_json()
 }
 
 #[get("/valid_check/<id>/<current_time>")]
-fn valid_check(id: String, current_time:String) -> content::Json<String> {
-    let result: String;
+fn valid_check(id: String, current_time:String) -> content::Json<&'static str> {
     if time_check(current_time.parse::<i64>().unwrap()) {
-        result = "  001 Invalid input".to_string();
+        ReturnType{
+            status  :   "100".to_string(),
+            info    :   "Invalid input".to_string(),
+            token   :   "Invalid".to_string()
+        }.to_json()
     } else {
         match postgres_connect_user_validation(id, current_time, 0) {
             Ok(s)
                 => {
                     if s != -1 {
-                        result = "200 Pass".to_string();
+                        ReturnType{
+                            status  :   "299".to_string(),
+                            info    :   "Pass".to_string(),
+                            token   :   "Invalid".to_string()
+                        }.to_json()
                     } else {
-                        result = "400 User Not Exist".to_string();
+                        ReturnType{
+                            status  :   "400".to_string(),
+                            info    :   "User Not Exist".to_string(),
+                            token   :   "Invalid".to_string()
+                        }.to_json()
                     }
                 }
             Err(error)
                 => {
-                    result = "  800 Default Error".to_string();
-                    println!("      error = {:?}", error)
+                    println!("      error = {:?}", error);
+                    ReturnType{
+                        status  :   "800".to_string(),
+                        info    :   "Default Error".to_string(),
+                        token   :   "Invalid".to_string()
+                    }.to_json()
                 },
         }
     }
-    content::Json(result)
 }
 
 #[get("/login_check/<id>/<current_time>/<password_in>")]
-fn login_check(id: String, current_time:String, password_in: String) -> content::Json<String> {
-    let result: String;
+fn login_check(id: String, current_time:String, password_in: String) -> content::Json<&'static str> {
     if time_check(current_time.parse::<i64>().unwrap()) {
-        result = "  001 Invalid input".to_string();
+        ReturnType{
+            status  :   "100".to_string(),
+            info    :   "Invalid input".to_string(),
+            token   :   "Invalid".to_string()
+        }.to_json()
     } else {
         match postgres_connect_user_validation(id, current_time, password_in.parse::<u32>().unwrap()) {
             Ok(s)
                 => {
                     match s {
-                        -2  =>  result = "  801 Password Error".to_string(),
-                        -1  =>  result = "  400 User Not Exist".to_string(),
-                        1   =>  result = "  201 Admin User Pass".to_string(),
-                        2   =>  result = "  202 Normal User Pass".to_string(),
-                        3   =>  result = "  203 Guest User Pass".to_string(),
-                        _   =>  result = "  800 Default Error".to_string(),
+                        -2  =>  {
+                            ReturnType{
+                                status  :   "801".to_string(),
+                                info    :   "Password Error".to_string(),
+                                token   :   "Invalid".to_string()
+                            }.to_json()
+                        }
+                        -1  =>  {
+                            ReturnType{
+                                status  :   "400".to_string(),
+                                info    :   "User Not Exist".to_string(),
+                                token   :   "Invalid".to_string()
+                            }.to_json()
+                        }
+                        1   =>  {
+                            ReturnType{
+                                status  :   "201".to_string(),
+                                info    :   "Admin User Pass".to_string(),
+                                token   :   "Pass".to_string()
+                            }.to_json()
+                        }
+                        2   =>  {
+                            ReturnType{
+                                status  :   "202".to_string(),
+                                info    :   "Normal User Pass".to_string(),
+                                token   :   "Pass".to_string()
+                            }.to_json()
+                        }
+                        3   =>  {
+                            ReturnType{
+                                status  :   "203".to_string(),
+                                info    :   "Guest User Pass".to_string(),
+                                token   :   "Pass".to_string()
+                            }.to_json()
+                        }
+                        _   =>  {
+                            ReturnType{
+                                status  :   "800".to_string(),
+                                info    :   "Default Error".to_string(),
+                                token   :   "Invalid".to_string()
+                            }.to_json()
+                        }
                     }
                 }
             Err(error)
                 => {
-                    result = "  800 Default Error".to_string();
-                    println!("      error = {:?}", error)
+                    println!("      error = {:?}", error);
+                    ReturnType{
+                        status  :   "800".to_string(),
+                        info    :   "Default Error".to_string(),
+                        token   :   "Invalid".to_string()
+                    }.to_json()
                 },
         }
     }
-    content::Json(result)
 }
 
 fn main() {
