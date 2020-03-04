@@ -3,56 +3,9 @@
 #[macro_use] extern crate rocket;
 //use rocket::response::status;
 use rocket::response::content;
-extern crate postgres;
-use postgres::{Client, NoTls};
-use chrono::prelude::*;
-extern crate chrono;
 
-//3 minutes check
-fn time_check(time: i64) -> bool {
-    let dt = Local::now();
-    println!("      time compare: {} {} => {}", time, dt.timestamp_millis(), (dt.timestamp_millis() - time).abs() < 1000 * 60 * 3);
-    if (dt.timestamp_millis() - time).abs() < 1000 * 60 * 3 {
-        false
-    } else {
-        true
-    }
-}
-
-//Algorithm :
-//  hashstring(username, current_time) == password_in
-//  && time must be in 3 minutes
-fn hash_string(hashsource: String, time: String) -> u32 {
-    let (mut hash, m) = (0 as u32, 49639);
-    for c in hashsource.chars() {
-        hash = hash * 256 + c as u32;
-        hash = hash % m;
-    }
-    for c in time.chars() {
-        hash = hash *256 + c as u32;
-        hash = hash % m;
-    }
-    hash
-}
-
-//Connect to PostgreSQL DataBase
-//  Compare password
-fn postgres_connect_user_validation(id_user: String, time_in:String, password_in: u32) -> Result<i32, postgres::Error> {
-    let mut client = Client::connect("host=localhost port=5432 dbname=Dot user=postgres password=123", NoTls)?;
-    let mut status: i32 = -1;
-
-    for row in client.query("SELECT password, status FROM users where id = $1", &[&id_user])? {
-        let password: String = row.get(0);
-        status = row.get(1);
-        println!("      password compare: {} {} , {}", hash_string(password.clone(), time_in.clone()), password_in.clone(), hash_string(password.clone(), time_in.clone()) == password_in);
-        if hash_string(password, time_in.clone()) != password_in {
-            status = -2;
-            break;
-        }
-    }
-
-    Ok(status)
-}
+pub mod manage;
+use crate::manage::*;
 
 struct ReturnType {
     status  :   String,
@@ -66,6 +19,7 @@ impl ReturnType {
         content::Json(Box::leak(result.into_boxed_str()))
     }
 }
+
 
 #[get("/")]
 fn index() -> content::Json<&'static str> {
@@ -124,7 +78,7 @@ fn login_check(id: String, current_time:String, password_in: String) -> content:
             token   :   "Invalid".to_string()
         }.to_json()
     } else {
-        match postgres_connect_user_validation(id, current_time, password_in.parse::<u32>().unwrap()) {
+        match postgres_connect_user_validation(id.clone(), current_time.clone(), password_in.parse::<u32>().unwrap()) {
             Ok(s)
                 => {
                     match s {
@@ -146,21 +100,21 @@ fn login_check(id: String, current_time:String, password_in: String) -> content:
                             ReturnType{
                                 status  :   "201".to_string(),
                                 info    :   "Admin User Pass".to_string(),
-                                token   :   "Pass".to_string()
+                                token   :   make_token(id, current_time)
                             }.to_json()
                         }
                         2   =>  {
                             ReturnType{
                                 status  :   "202".to_string(),
                                 info    :   "Normal User Pass".to_string(),
-                                token   :   "Pass".to_string()
+                                token   :   make_token(id, current_time)
                             }.to_json()
                         }
                         3   =>  {
                             ReturnType{
                                 status  :   "203".to_string(),
                                 info    :   "Guest User Pass".to_string(),
-                                token   :   "Pass".to_string()
+                                token   :   make_token(id, current_time)
                             }.to_json()
                         }
                         _   =>  {
@@ -185,10 +139,77 @@ fn login_check(id: String, current_time:String, password_in: String) -> content:
     }
 }
 
+#[get("/token_check/<token>")]
+fn token_check(token: String) -> content::Json<&'static str> {
+    fn token_time_check(token: String) -> bool {
+        let mut flag = true;
+        let mut res:i64 = 0;
+        for i in token.chars() {
+            if flag && (i != '-') {
+                continue;
+            } else if i == '-' {
+                if flag == false {
+                    break;
+                }
+                flag = false;
+                continue;
+            }
+            res = res * 10 + i as i64 - '0' as i64;
+        }
+        time_check(res)
+    }
+    fn token_get_id(token: String) -> String {
+        let mut res = String::from("");
+        for i in token.chars() {
+            if i == '-' {
+                break;
+            }
+            res.push(i);
+        }
+        res
+    }
+    if token_time_check(token.clone()) {
+        ReturnType{
+            status  :   "100".to_string(),
+            info    :   "Token Time Out".to_string(),
+            token   :   token
+        }.to_json()
+    } else {
+        match postgres_connect_token_validation(token_get_id(token.clone()), token.clone()) {
+            Ok(s)
+                => {
+                    if s != -1 {
+                        ReturnType{
+                            status  :   "299".to_string(),
+                            info    :   "Pass".to_string(),
+                            token   :   token
+                        }.to_json()
+                    } else {
+                        ReturnType{
+                            status  :   "401".to_string(),
+                            info    :   "Token Error".to_string(),
+                            token   :   token
+                        }.to_json()
+                    }
+                }
+            Err(error)
+                => {
+                    println!("      error = {:?}", error);
+                    ReturnType{
+                        status  :   "800".to_string(),
+                        info    :   "Default Error".to_string(),
+                        token   :   token
+                    }.to_json()
+                },
+        }
+    }
+}
+
 fn main() {
     rocket::ignite()
         .mount("/", routes![index])
         .mount("/", routes![valid_check])
         .mount("/", routes![login_check])
+        .mount("/", routes![token_check])
         .launch();
 }
