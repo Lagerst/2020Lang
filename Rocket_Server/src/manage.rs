@@ -61,7 +61,6 @@ pub fn postgres_connect_user_validation(id_user: String, time_in:String, passwor
             break;
         }
     }
-
     Ok(status)
 }
 
@@ -78,7 +77,6 @@ pub fn postgres_connect_token_update(id_user: String, token:String) -> Result<i3
 pub fn postgres_connect_token_validation(id_user: String, token_in:String) -> Result<i32, postgres::Error> {
     let mut client = Client::connect("host=localhost port=5432 dbname=Dot user=postgres password=123", NoTls)?;
     let mut status: i32 = -1;
-
     for row in client.query("SELECT token FROM users where id = $1", &[&id_user])? {
         let token: String = row.get(0);
         println!("     token compare:\n      in_ : {}\n      res : {}\n         => {}", token_in.clone(), token.clone(), token_in.clone()==token.clone());
@@ -87,6 +85,5 @@ pub fn postgres_connect_token_validation(id_user: String, token_in:String) -> Re
             break;
         }
     }
-
     Ok(status)
 }
