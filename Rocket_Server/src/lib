@@ -1,0 +1,9 @@
+#[get("/<id>")]
+fn echo_handler(id: usize) -> status::Accepted<String> {
+    status::Accepted(Some(format!("id: '{}'", id)))
+}
+
+#[post("/<id>")]
+fn post_handler(id: usize) -> status::Accepted<String> {
+    status::Accepted(Some(format!("id: '{}'", id)))
+}
