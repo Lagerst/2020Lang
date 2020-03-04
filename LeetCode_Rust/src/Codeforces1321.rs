@@ -24,7 +24,7 @@ struct Scanner {
 
 }
 
-fn main() {
+pub fn main() {
     let mut scanner = Scanner::new();
     let n : usize = scanner.next();
     let mut r: Vec<i32> = Vec::new();
