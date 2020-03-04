@@ -20,7 +20,7 @@ impl ReturnType {
     }
 }
 
-
+//index page
 #[get("/")]
 fn index() -> content::Json<&'static str> {
     ReturnType{
@@ -40,6 +40,7 @@ fn post_handler(id: usize) -> status::Accepted<String> {
     status::Accepted(Some(format!("id: '{}'", id)))
 }
 
+//check the validation of userid
 #[get("/valid_check/<id>/<current_time>")]
 fn valid_check(id: String, current_time:String) -> content::Json<&'static str> {
     if time_check(current_time.parse::<i64>().unwrap()) {
@@ -79,6 +80,7 @@ fn valid_check(id: String, current_time:String) -> content::Json<&'static str> {
     }
 }
 
+//check the username and password of userid
 #[get("/login_check/<id>/<current_time>/<password_in>")]
 fn login_check(id: String, current_time:String, password_in: String) -> content::Json<&'static str> {
     if time_check(current_time.parse::<i64>().unwrap()) {
@@ -149,6 +151,7 @@ fn login_check(id: String, current_time:String, password_in: String) -> content:
     }
 }
 
+//check the validation of user token
 #[get("/token_check/<token>")]
 fn token_check(token: String) -> content::Json<&'static str> {
     fn token_time_check(token: String) -> bool {
