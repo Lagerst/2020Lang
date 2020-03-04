@@ -156,6 +156,7 @@ fn token_check(token: String) -> content::Json<&'static str> {
             }
             res = res * 10 + i as i64 - '0' as i64;
         }
+        println!("     Extract time from token : {}", res);
         time_check(res)
     }
     fn token_get_id(token: String) -> String {
@@ -166,6 +167,7 @@ fn token_check(token: String) -> content::Json<&'static str> {
             }
             res.push(i);
         }
+        println!("     Extract urid from token : {}", res);
         res
     }
     if token_time_check(token.clone()) {

@@ -5,7 +5,8 @@ extern crate chrono;
 extern crate rand;
 use rand::Rng;
 
-//make token for user login
+//make a new token for user login
+//  make_token(source: String, time: String) -> String
 pub fn make_token(source: String, time: String) -> String{
     let mut rng =rand::thread_rng();
     let token = source.clone() + "-" + &time.clone() + "-" + &hash_string(source.clone(), rng.gen::<u32>().to_string()).to_string() + &hash_string(time.clone(), rng.gen::<u32>().to_string()).to_string() + &hash_string(time.clone(), source.clone()).to_string();
@@ -18,6 +19,7 @@ pub fn make_token(source: String, time: String) -> String{
 }
 
 //30 minutes check
+//  time_check(time: i64) -> bool
 pub fn time_check(time: i64) -> bool {
     let dt = Local::now();
     println!("     time compare:\n      in_ : {}\n      res : {}\n         => {}", time, dt.timestamp_millis(), (dt.timestamp_millis() - time).abs() < 1000 * 60 * 30);
