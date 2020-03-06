@@ -1,5 +1,7 @@
+//https://rustcc.gitbooks.io/rustprimer/content/action/db/readme.html
 extern crate postgres;
 use postgres::{Client, NoTls};
+
 use chrono::prelude::*;
 extern crate chrono;
 extern crate rand;
@@ -12,10 +14,9 @@ pub fn make_token(source: String, time: String) -> String{
     let token = source.clone() + "-" + &time.clone() + "-" + &hash_string(source.clone(), rng.gen::<u32>().to_string()).to_string() + &hash_string(time.clone(), rng.gen::<u32>().to_string()).to_string() + &hash_string(time.clone(), source.clone()).to_string();
     match postgres_connect_token_update(source, token.clone()) {
         Err(error)
-            => { println!("     error = {:?}", error); }
-        _   => { println!("     update successfully"); }
+            => { println!("     error = {:?}", error); String::from("Update Failed::Server Error!") }
+        _   => { println!("     update successfully"); token}
     }
-    token
 }
 
 //30 minutes check
