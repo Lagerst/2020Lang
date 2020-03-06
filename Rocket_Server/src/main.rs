@@ -7,6 +7,11 @@ use rocket::response::content;
 pub mod manage;
 use crate::manage::*;
 
+//Reference: https://rustcc.gitbooks.io/rustprimer/content/action/json_data/readme.html
+extern crate rustc_serialize;
+use rustc_serialize::json;
+
+#[derive(RustcDecodable, RustcEncodable)]
 struct ReturnType {
     status  :   String,
     info    :   String,
@@ -15,8 +20,8 @@ struct ReturnType {
 
 impl ReturnType {
     fn to_json(&self) -> content::Json<&'static str> {
-        let result= "{ \'status\':\'".to_string() + self.status.as_str() + "\', \'info\': \'" + self.info.as_str() + "\', \'token\': \'"+ self.token.as_str() + "\'}";
-        content::Json(Box::leak(result.into_boxed_str()))
+        //let result= "{ \'status\':\'".to_string() + self.status.as_str() + "\', \'info\': \'" + self.info.as_str() + "\', \'token\': \'"+ self.token.as_str() + "\'}";
+        content::Json(Box::leak(json::encode(&self).unwrap().into_boxed_str()))
     }
 }
 
