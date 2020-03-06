@@ -1,5 +1,5 @@
-pub mod codeforces1321;
+pub mod codeforces1316a;
 
 fn main() {
-    codeforces1321::main();
+    codeforces1316a::main();
 }
