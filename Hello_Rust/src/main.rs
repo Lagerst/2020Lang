@@ -665,35 +665,35 @@ fn _string(){
     //1   创建一个空String
     let mut s0 = String::new();
     s0.push_str("hello");
-    println!("  string s0 = {}",s0);
+    println!("  string s0 = {}", s0);
 
     //2   通过字面值创建一个String
     //2.1 使用String::from()
     let s1 = String::from("init");
-    println!("  string s1 = {} //String::from(\"init\")",s1);
+    println!("  string s1 = {} //String::from(\"init\")", s1);
     //2.2 使用str的方式
     let s2 = "init".to_string();
-    println!("  string s2 = {} //\"init\".to_string()",s2);
+    println!("  string s2 = {} //\"init\".to_string()", s2);
 
     //3   更新String
     //3.1 push_str
     s0.push_str(", world");
-    println!("  s0.push_str(\", world!\") = {}",s0);
+    println!("  s0.push_str(\", world!\") = {}", s0);
     //3.2 push
     s0.push('!');
-    println!("  s0.push('!') = {}",s0);
+    println!("  s0.push('!') = {}", s0);
     //3.3 使用"+"合并字符串
     //let s3 = s0 + &s2;  //s0 become invalid
     let s3 = s0.clone() + &s2;  //use this instead
     println!("  s0 = {}",s0);
-    println!("  s3 = s0.clone() + &s2 = {}",s3);
+    println!("  s3 = s0.clone() + &s2 = {}", s3);
     //3.4 使用format!
     let ss1 = String::from("192");
     let ss2 = String::from("168");
     let ss3 = String::from("0");
     let ss4 = String::from("1");
-    let ss = format!("{}.{}.{}.{}",ss1,ss2,ss3,ss4);
-    println!("  ss = format!(\"{{}}.{{}}.{{}}.{{}}\",String::from(\"192\"),String::from(\"168\"),String::from(\"0\"),String::from(\"1\")) = {}",ss);
+    let ss = format!("{}.{}.{}.{}", ss1, ss2, ss3, ss4);
+    println!("  ss = format!(\"{{}}.{{}}.{{}}.{{}}\",String::from(\"192\"),String::from(\"168\"),String::from(\"0\"),String::from(\"1\")) = {}", ss);
 
     //4   String 索引
     //    String 不能被索引!!!
@@ -701,19 +701,19 @@ fn _string(){
     //5   str 索引
     let hello = "你好";
     let h5 = & hello[0..3];
-    println!("  h5 = &hello[0..3] = {}",h5);
+    println!("  h5 = &hello[0..3] = {}", h5);
 
     //6   遍历
     //6.1 chars
     print!("  (chars) hello =");
     for c in hello.chars() {
-        print!(" {}",c);
+        print!(" {}", c);
     }
     println!("");
     //6.2 bytes
     print!("  (bytes) hello =");
     for c in hello.bytes() {
-        print!(" {}",c);
+        print!(" {}", c);
     }
     println!("");
 
