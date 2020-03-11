@@ -50,9 +50,7 @@ impl KthLargest {
     }
 
     fn adjust(&mut self, i: usize, j: usize) {
-        let temp:i32 = self.heap[i];
-        self.heap[i] = self.heap[j];
-        self.heap[j] = temp;
+        self.heap.swap(i, j);
         self.down(i);
     }
 }
