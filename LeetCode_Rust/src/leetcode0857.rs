@@ -82,9 +82,9 @@ impl Solution {
         //println!("{:?}, {}, {}, {}", heap, res, sum, values[(k - 1) as usize].value);
         for i in k..cnt as i32 {
             if quality[values[i as usize].location] < - heap.heap[1] {
-                sum = sum + heap.heap[1] + quality[values[i as usize].location]
+                sum = sum + heap.heap[1] + quality[values[i as usize].location];
+                heap.add(- quality[values[i as usize].location]);
             }            
-            heap.add(- quality[values[i as usize].location]);
             if res > sum as f64 * (values[i as usize].value) {
                 res = sum as f64 * (values[i as usize].value)
             }
