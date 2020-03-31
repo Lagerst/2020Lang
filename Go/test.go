@@ -1,3 +1,6 @@
+// Sample Test
+// Run go run *.go
+
 package main
 import "fmt"
 
