@@ -1,0 +1,30 @@
+% hello.tex
+\documentclass[a4paper]{article}
+\usepackage{fontspec, xunicode, xltxtra} 
+\setmainfont{Microsoft YaHei} 
+\usepackage{ctex}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\begin{document}
+		\begin{figure}[t]
+			\centering
+			\begin{center}{}
+				\begin{minipage}[t]{1.55in}
+					\includegraphics[width=1.5in]{picture/Android.png}
+					\caption*{\kaishu Android端(3r5i)}
+				\end{minipage}
+				%%   
+				\begin{minipage}[t]{1.55in}
+					\includegraphics[width=1.5in]{picture/IOS.png}
+					\caption*{\kaishu IOS端}
+				\end{minipage}
+				%%   
+				\begin{minipage}[t]{1.55in}
+					\includegraphics[width=1.5in]{picture/PC.png}
+					\caption*{\kaishu PC端(kqrh)}
+				\end{minipage}
+			\end{center}
+		\end{figure}
+\end{document}
+
