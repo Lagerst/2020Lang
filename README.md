@@ -30,6 +30,6 @@ Some Pet Projects
 
 To be improved
 
-# GO Lang
+# Go Lang
 
 To be improved
