@@ -1,3 +1,3 @@
 git add .
-git commit -m "$(Get-Date)"
+git commit -m "%date% %time%"
 git push origin master
