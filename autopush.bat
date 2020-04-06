@@ -1,3 +1,3 @@
 git add .
-git commit -m "autopush"
+git commit -m $(Get-Date)
 git push origin master
