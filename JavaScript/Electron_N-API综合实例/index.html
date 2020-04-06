@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./css/WebviewStyle.css">
+    <link rel="stylesheet" href="./css/UnDraggableButton.css">
+    <link rel="stylesheet" href="./css/TitleBarDraggable.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/json2/20160511/json2.js"></script>
+  </head>
+  <body>
+    <!-- style="-webkit-app-region: drag"-->
+    <!-- WebView-->
+    <div>
+      <div>
+          <h2>Dragable Area</h2>
+      </div>
+      <span size="12">status : </span>
+      <span id="loadstatus" size="12">pending</span>
+      <button type="button" value="RefreshStatus" style="width:120px;" onclick="RefreshStatus()">RefreshStatus</button>
+      <button type="button" value="OpenNewWindow" style="width:120px;" onclick="OpenNewWindow()">OpenNewWindow</button>
+      <button type="button" value="CloseNewWindow" style="width:120px;" onclick="CloseNewWindow()">CloseNewWindow</button>
+      <button type="button" value="NewPageOpen" style="width:180px;" onclick="NewPageOpen()">NewPageOpen_InRender</button>
+      <webview src="https://www.baidu.com" preload="./preload.js"></webview>
+    </div>
+    <div>
+      <h2>Open Dialog</h2>
+      <button onclick="openDialog()">Open</button>
+      <button onclick="saveDialog()">Save</button>
+      <button onclick="showMessageDialog()">Message</button>
+    </div>
+    <div>
+      <h2>GlobalShortcut</h2>
+      <button onclick="ShortcutReg()">Reg_(Command + X)</button>
+      <div id="GlobalShortcutStatus" style="font-size:12px">
+        GlobalShortcutStatus
+      </div>
+    </div>
+    <div>
+      <h2>MenuPopup</h2>
+      <button onclick="MenuPopup()">MenuPopup</button>
+      <div id="click_test" style="font-size:12px">
+        Click_Test
+      </div>
+    </div>
+    <div>
+      <h2>CookieTest</h2>
+      <button onclick="CookieTest()">CookieTest</button>
+      <div id="click_test" style="font-size:12px">
+        CookieTest
+      </div>
+    </div>
+    <div>
+      <h2>DesktopCapturer</h2>
+      <button onclick="DesktopCapturer()">DesktopCapturer</button>
+      <video width="320" height="240" controls></video>
+    </div>
+    <div>
+      <h2>尝试在渲染进程调用.node</h2>
+      <button onclick="remote_import()">尝试在渲染进程调用.node</button>
+    </div>
+    <div>
+      <h2>写入剪切板</h2>
+      <p>键入内容 <input type="clipboard" name="b" id="clipboard" tabindex="2" size="18" value=""/></p>
+      <button onclick="clipboard_write()">写入剪贴板</button>
+      <button onclick="clipboard_read()">写入剪贴板</button>
+      <div id="clipboardStatus" style="font-size:12px">
+        clipboardStatus
+      </div>
+    </div>
+    <div>
+      <h2>IPC-Main</h2>
+      <button onclick="Message_Sync('ping')">Message_Sync</button>
+    </div>
+    <div>
+      <h2>notification</h2>
+      <button onclick="notification('notification sent')">notification</button>
+    </div>
+    <div id="container" style="width:600px">
+      <div id="header" style="background-color:rgb(176, 216, 253);">
+        <h1 style="margin-bottom:0;">A Calculator is implemented:</h1>
+      </div>
+    </div>
+    <a href="#" id="drag">File Drag Area</a>
+    <script type="text/javascript" charset="utf-8">
+      console.log('drag registered')
+      document.getElementById('drag').ondragstart = (event) => {
+        event.preventDefault()
+        ipcRenderer.send('ondragstart', 'HeadPhoto.jpg')
+      }
+    </script>
+      <div id="version" style="font-size:12px">
+        We are using Node.js <span id="node-version"></span>,
+        Chromium <span id="chrome-version"></span>,
+        and Electron <span id="electron-version"></span>
+      </div>
+      <div id="menu" style="background-color:rgb(160, 228, 255);height:250px;width:120px;float:left;">
+        <b>菜单</b>
+        <form id="form1" onsubmit="return false" action="http://127.0.0.1:8080" method="get">
+          <p>A <input type="left" name="a" id="left" tabindex="1" size="18" value=""/></p>
+          <p>B <input type="right" name="b" id="right" tabindex="2" size="18" value=""/></p>
+          <button type="button" value="submit" style="width:120px;" onclick="submit_call()">Submit</button>
+          <button type="button" value="submit" style="width:120px;" onclick="submit_call_direct()">Submit_direct</button>
+          <button type="reset" value="reset" style="width:120px;" onclick="update('Reseted')">Reset</button>
+        </form>
+        </div>
+      <div id="content" style="background-color:rgb(160, 228, 255);height:250px;width:480px;float:left;">
+        <div id="imported" style="font-size:30px">
+          Result Here<br>
+        </div>
+        <div id="display_location" div style="font-size:15px">
+        &emsp;&emsp;Result will be displayed here
+        </div>
+      </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

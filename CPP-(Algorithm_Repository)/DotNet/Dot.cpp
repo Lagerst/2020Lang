@@ -232,7 +232,7 @@ int main(int argc,char* argv[])
 
     for (int i=0;i<argc;i++) {
 
-        string imagepath="D:\\BZ标准网点\\HQ\\H"+testset[i]+".jpg";
+        string imagepath="D:\\BZ_Standard\\HQ\\H"+testset[i]+".jpg";
 
 
         Mat gray_image = imread(imagepath,0);
@@ -259,7 +259,7 @@ int main(int argc,char* argv[])
 
     for (int i=0;i<argc;i++) {
 
-        string imagepath="D:\\BZ标准网点\\FZ\\F"+testset2[i]+".jpg";
+        string imagepath="D:\\BZ_Standard\\FZ\\F"+testset2[i]+".jpg";
 
 
         Mat gray_image = imread(imagepath,0);
