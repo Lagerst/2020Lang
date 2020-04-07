@@ -1,4 +1,4 @@
-# Rust Lang
+# Rust
 
 Learning Process of Rust Lang.
 
@@ -64,10 +64,10 @@ For reference only
 
 Some Pet Projects
 
-# Java Lang
+# Java
 
 To be improved
 
-# Go Lang
+# Go
 
 To be improved
