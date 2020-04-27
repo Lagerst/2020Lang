@@ -1,0 +1,11 @@
+{
+  "name": "camera",
+  "version": "0.0.1",
+  "description": "preview",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC"
+}
