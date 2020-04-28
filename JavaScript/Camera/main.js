@@ -1,4 +1,7 @@
 const { app, BrowserWindow, Menu } = require('electron')
+const addon = require('./build/Release/Cam.node')
+
+const camera = new addon.Cam();
 
 function createWindow () {
   // 创建浏览器窗口
@@ -9,16 +12,55 @@ function createWindow () {
         nodeIntegration: true
     }
   })
+  var menu;
+  setMenu(camera.RefreshCameraNum());
 
-  var menu = [{
-    label:"开始",
-    submenu: [{
-        label: '1',
-        click: function() {
-            win.loadFile('image.html');
+  function get_function(x) {
+    return function() {
+      console.log("Camera Switched to " + x);
+      camera.SetCam(x);
+      camera.UpdateImage();
+      /*
+      win.loadFile('image.html');
+      setInterval(() => {
+        camera.UpdateImage();
+        win.loadFile('image.html')
+      }, 1000);
+      */
+    }
+  }
+
+  function setMenu(x) {
+    submenu = [];
+    for (var i=0; i<x; i++) {
+      submenu.push(
+        {
+          label: "摄像头" + String(i),
+          click: get_function(i)
         }
-      }]
-  }]
+      )
+    }
+    menu = [
+      {
+        label: "刷新摄像头",
+        click: function() {
+          var num = camera.RefreshCameraNum();
+          console.log("RefreshCameraNum : " + num);
+          setMenu(num);
+          Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
+        }
+      },
+      {
+        label:"开始",
+        submenu: submenu
+      },{
+        label:"停止",
+        click: () => {
+          camera.Stop();
+        }
+      }
+    ]
+  }
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
 

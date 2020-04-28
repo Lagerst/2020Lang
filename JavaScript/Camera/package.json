@@ -4,8 +4,13 @@
   "description": "preview",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package": "electron-packager . Camera --platform=win32 --arch=ia32 --out=./release --asar --app-version=0.0.1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^8.2.3",
+    "node-addon-api": "^2.0.0"
+  }
 }
