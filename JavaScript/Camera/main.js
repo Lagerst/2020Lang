@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const addon = require('./build/Release/Cam.node')
-
+const log = require('electron-log');
 const camera = new addon.Cam();
 
 function createWindow () {
@@ -12,13 +12,18 @@ function createWindow () {
         nodeIntegration: true
     }
   })
+
+  log.info("********************************************");
+  log.info("A new program instance started");
+
   var menu;
   setMenu(camera.RefreshCameraNum());
 
   function get_function(x) {
     return function() {
-      console.log("Camera Switched to " + x);
+      log.info("Camera Switched to " + x);
       camera.SetCam(x);
+      log.info("Start fetching Image from Camera " + x);
       camera.UpdateImage();
       /*
       win.loadFile('image.html');
@@ -45,7 +50,7 @@ function createWindow () {
         label: "刷新摄像头",
         click: function() {
           var num = camera.RefreshCameraNum();
-          console.log("RefreshCameraNum : " + num);
+          log.info("RefreshCameraNum : " + num);
           setMenu(num);
           Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
         }
@@ -56,6 +61,7 @@ function createWindow () {
       },{
         label:"停止",
         click: () => {
+          log.info("Camera Stop Recording");
           camera.Stop();
         }
       }
