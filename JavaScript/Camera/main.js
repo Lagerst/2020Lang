@@ -3,6 +3,8 @@ const addon = require('./build/Release/Cam.node')
 const log = require('electron-log');
 const camera = new addon.Cam();
 
+var debug = false;
+
 function createWindow () {
   // 创建浏览器窗口
   const win = new BrowserWindow({
@@ -23,8 +25,8 @@ function createWindow () {
     return function() {
       log.info("Camera Switched to " + x);
       camera.SetCam(x);
-      log.info("Start fetching Image from Camera " + x);
-      camera.UpdateImage();
+      log.info("Start fetching Image from Camera " + x + ", Mode = " + debug);
+      camera.UpdateImage(debug);
       /*
       win.loadFile('image.html');
       setInterval(() => {
@@ -64,6 +66,24 @@ function createWindow () {
           log.info("Camera Stop Recording");
           camera.Stop();
         }
+      },{
+        label:"Debug Mode",
+        submenu: [
+          {
+            label: "on",
+            click: () => {
+              log.info("DebugMode set to TRUE");
+              debug = true;
+            }
+          },
+          {
+            label: "off",
+            click: () => {
+              log.info("DebugMode set to FALSE");
+              debug = false;
+            }
+          }
+        ]
       }
     ]
   }

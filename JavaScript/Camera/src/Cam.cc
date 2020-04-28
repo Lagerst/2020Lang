@@ -64,7 +64,7 @@ double MapStorage::getvalue() {
     //cout<<width<<" "<<height<<" "<<top<<" "<<bottom<<" "<<left<<" "<<right<<endl;
     for (i = top; i < bottom; i++) {
         for (j = left; j < right; j++) {
-            Vec3b col = color_map.at<Vec3b>(i,j);
+            Vec3b col = color_map.at<Vec3b>(i, j);
             int red = col[2];
             int green = col[1];
             int blue = col[0];
@@ -211,7 +211,7 @@ double MapStorage::getvalue() {
     int col;
     for (i = top; i < bottom; i++) {
         for (j = left; j < right; j++) {
-            Vec3b col = color_map.at<Vec3b>(i,j);
+            Vec3b col = color_map.at<Vec3b>(i, j);
             int red = col[2];
             int green = col[1];
             int blue = col[0];
@@ -272,6 +272,12 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
     if (now == -1 || now >= total) {
         return Napi::Number::New(info.Env(), -1);
     }
+    bool DebugMode = false;
+    if (info.Length() == 1 && info[0].IsBoolean()) {
+        DebugMode = info[0].As<Napi::Boolean>();
+    } else {
+        return Napi::Number::New(info.Env(), -2);
+    }
 
     mut.lock();
     if (this->running == true){
@@ -283,7 +289,7 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 
 	VideoCapture capture(now);
 	if (!capture.isOpened())
-		return Napi::Number::New(info.Env(), -2);
+		return Napi::Number::New(info.Env(), -3);
 
 	while (1)
 	{
@@ -296,6 +302,10 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 		}
 		else
 		{
+            if (DebugMode) {
+                imwrite("dump.jpg", x->color_map);
+            }
+
             std::string text = std::to_string(x->getvalue());
 
             int font_face = cv::FONT_HERSHEY_COMPLEX;
