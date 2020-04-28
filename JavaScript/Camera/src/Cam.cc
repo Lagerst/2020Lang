@@ -61,9 +61,9 @@ double MapStorage::getvalue() {
     int right = left + boxWidth;
     int top = height / 4;
     int bottom = top + boxHeight;
+    //cout<<width<<" "<<height<<" "<<top<<" "<<bottom<<" "<<left<<" "<<right<<endl;
     for (i = top; i < bottom; i++) {
         for (j = left; j < right; j++) {
-            //cout<<i<<" "<<j<<" "<<top<<" "<<bottom<<" "<<left<<" "<<right<<endl;
             Vec3b col = color_map.at<Vec3b>(i,j);
             int red = col[2];
             int green = col[1];
@@ -220,7 +220,7 @@ double MapStorage::getvalue() {
             }
         }
     }
-    cout<<"blackPixel="<<blackPixel<<" ,TotalPixel="<<boxTotalPixel<<endl;
+    //cout<<"blackPixel="<<blackPixel<<" ,TotalPixel="<<boxTotalPixel<<endl;
     double dotPercent = (((double)blackPixel) / ((double)boxTotalPixel)) * 100.0;
     return dotPercent;
 }
@@ -285,34 +285,26 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 	if (!capture.isOpened())
 		return Napi::Number::New(info.Env(), -2);
 
-	Mat edges;
 	while (1)
 	{
         MapStorage* x = new MapStorage();
 		capture >> x->color_map;
 		if ((x->color_map).empty())
 		{
-            free(x);
+            delete x;
 			break;
 		}
 		else
 		{
-			//cvtColor(frame, edges, CV_BGR2GRAY);//彩色转换成灰度
-			//blur(edges, edges, Size(7, 7));//模糊化
-			//Canny(edges, edges, 0, 30, 3);//边缘化
-
-            //设置绘制文本的相关参数
-
             std::string text = std::to_string(x->getvalue());
 
             int font_face = cv::FONT_HERSHEY_COMPLEX;
             double font_scale = 2;
             int thickness = 1;
             int baseline;
-            //获取文本框的长宽
+
             cv::Size text_size = cv::getTextSize(text, font_face, font_scale, thickness, &baseline);
 
-            //将文本框居中绘制
             cv::Point origin;
             origin.x = (x->color_map).cols - text_size.width;
             origin.y = (x->color_map).rows - text_size.height;
@@ -320,7 +312,7 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 
             imshow("Video", (x->color_map));
 		}
-        free(x);
+        delete x;
         if (this->running == false) {
             break;
         }
