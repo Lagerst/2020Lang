@@ -1,6 +1,6 @@
 .loader {
-    background: #000;
-    background: radial-gradient(#222, #000);
+    background: rgb(255, 255, 255);
+    background: radial-gradient(rgb(221, 221, 221), rgb(255, 255, 255));
     bottom: 0;
     left: 0;
     overflow: hidden;

@@ -28,7 +28,6 @@ function createWindow () {
       log.info("Start fetching Image from Camera " + x + ", Mode = " + debug);
       camera.UpdateImage(debug);
       /*
-      win.loadFile('image.html');
       setInterval(() => {
         camera.UpdateImage();
         win.loadFile('image.html')
@@ -47,7 +46,7 @@ function createWindow () {
         }
       )
     }
-    menu = [
+    submenu.push(
       {
         label: "刷新摄像头",
         click: function() {
@@ -56,17 +55,27 @@ function createWindow () {
           setMenu(num);
           Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
         }
-      },
+      }
+    );
+    submenu.push(
+      {
+        label: "显示标准",
+        click: function() {
+          win.loadFile('standard.html')
+        }
+      }
+    );
+    menu = [
       {
         label:"开始",
         submenu: submenu
-      },{
+      }, {
         label:"停止",
         click: () => {
           log.info("Camera Stop Recording");
           camera.Stop();
         }
-      },{
+      }, {
         label:"Debug Mode",
         submenu: [
           {
