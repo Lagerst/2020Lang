@@ -74,7 +74,7 @@ Include :
 
         => Electron
 
-	An electron App using Napi & opencv to read local camera
+	An electron App using Napi & opencv to read local cameras
 
         => Camera
 
