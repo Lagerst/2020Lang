@@ -2,28 +2,22 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>ECharts</title>
+    <title>Camera_Standard</title>
     <!-- 引入 echarts.js -->
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
 </head>
 <body>
-<!--为echarts准备一个容器，画图就画在里面-->
 <div id="box" style="width: 640px;height: 480px;"></div>
     <script src="renderer.js"></script>
     <script>
-        //初始化ehcharts实例
         var myChart=echarts.init(document.getElementById("box"));
         readJSON("./standard.json", function(res){
             var data = JSON.parse(res);
             console.log(data);
-            //指定图表的配置项和数据
             var option={
-                //标题
                 title:{
-                text:'标准误差对比'
+                    text:'标准误差'
                 },
-                //工具箱
-                //保存图片
                 toolbox:{
                     show:true,
                     feature:{
@@ -32,7 +26,6 @@
                         }
                     }
                 },
-                //图例-每一条数据的名字叫销量
                 legend:{
                     data:['自定义标准测量线','HQ标准测量线', 'FZ标准测量线', '标准线'],
                     selected:{
@@ -42,13 +35,10 @@
                         '标准线': false
                     }
                 },
-                //x轴
                 xAxis:{
                     data:data["std"]
                 },
-                //y轴没有显式设置，根据值自动生成y轴
                 yAxis:{},
-                //数据-data是最终要显示的数据
                 series:[{
                     name:'自定义标准测量线',
                     type:'line',
@@ -75,7 +65,6 @@
                     smooth: true
                 }]
             };
-            //使用刚刚指定的配置项和数据项显示图表
             myChart.setOption(option);
         });
     </script>

@@ -3,7 +3,36 @@ const addon = require('./build/Release/Cam.node')
 const log = require('electron-log');
 const camera = new addon.Cam();
 
-var debug = false;
+var CamId = -1;
+var Debug = false;
+var DotNet = false;
+var is_running = false;
+
+function camera_set(x) {
+  log.info("Camera Switched to " + x);
+  CamId = x;
+  camera.SetCam(x);
+}
+
+function camera_stop() {
+  log.info("Camera Stop Recording");
+  is_running =false;
+  camera.Stop();
+}
+
+function camera_start(){
+  if (is_running) {
+    camera_stop();
+  }
+  log.info("Start fetching Image from Camera " + CamId + ", Mode = " + Debug + " + " + DotNet);
+  is_running = true;
+  camera.UpdateImage(Debug, DotNet);
+}
+
+function camera_restart() {
+  log.info("ReStart fetching Image");
+  camera_start();
+}
 
 function createWindow () {
   // 创建浏览器窗口
@@ -23,16 +52,8 @@ function createWindow () {
 
   function get_function(x) {
     return function() {
-      log.info("Camera Switched to " + x);
-      camera.SetCam(x);
-      log.info("Start fetching Image from Camera " + x + ", Mode = " + debug);
-      camera.UpdateImage(debug);
-      /*
-      setInterval(() => {
-        camera.UpdateImage();
-        win.loadFile('image.html')
-      }, 1000);
-      */
+      camera_set(x);
+      camera_start();
     }
   }
 
@@ -61,6 +82,7 @@ function createWindow () {
       {
         label: "显示标准",
         click: function() {
+          log.info("standard page has been loaded.");
           win.loadFile('standard.html')
         }
       }
@@ -71,25 +93,40 @@ function createWindow () {
         submenu: submenu
       }, {
         label:"停止",
-        click: () => {
-          log.info("Camera Stop Recording");
-          camera.Stop();
-        }
+        click: camera_stop
       }, {
-        label:"Debug Mode",
+        label:"设置",
         submenu: [
           {
-            label: "on",
+            label: "Debug Mode ON",
             click: () => {
               log.info("DebugMode set to TRUE");
-              debug = true;
+              Debug = true;
+              camera_restart();
             }
           },
           {
-            label: "off",
+            label: "Debug Mode OFF",
             click: () => {
               log.info("DebugMode set to FALSE");
-              debug = false;
+              Debug = false;
+              camera_restart();
+            }
+          },
+          {
+            label: "DotNet Mode ON",
+            click: () => {
+              log.info("DotNet set to TRUE");
+              DotNet = true;
+              camera_restart();
+            }
+          },
+          {
+            label: "DotNet Mode OFF",
+            click: () => {
+              log.info("DotNet set to FALSE");
+              DotNet = false;
+              camera_restart();
             }
           }
         ]
@@ -100,6 +137,7 @@ function createWindow () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
 
   // 并且为你的应用加载index.html
+  log.info("index page has been loaded.");
   win.loadFile('index.html')
 
   // 打开开发者工具
@@ -113,6 +151,7 @@ app.whenReady().then(createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  camera_stop();
   // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
   // 否则绝大部分应用及其菜单栏会保持激活。
   if (process.platform !== 'darwin') {

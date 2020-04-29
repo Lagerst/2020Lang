@@ -272,9 +272,10 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
     if (now == -1 || now >= total) {
         return Napi::Number::New(info.Env(), -1);
     }
-    bool DebugMode = false;
-    if (info.Length() == 1 && info[0].IsBoolean()) {
+    bool DebugMode = false, DotNetMode = false;
+    if (info.Length() == 2 && info[0].IsBoolean() && info[1].IsBoolean()) {
         DebugMode = info[0].As<Napi::Boolean>();
+        DotNetMode = info[1].As<Napi::Boolean>();
     } else {
         return Napi::Number::New(info.Env(), -2);
     }
@@ -282,7 +283,7 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
     mut.lock();
     if (this->running == true){
         this->running = false;
-		waitKey(300);
+		waitKey(100);
     }
     this->running = true;
     mut.unlock();
@@ -306,21 +307,23 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
                 imwrite("dump.jpg", x->color_map);
             }
 
-            std::string text = std::to_string(x->getvalue());
+            if (DotNetMode) {
+                std::string text = std::to_string(x->getvalue());
 
-            int font_face = cv::FONT_HERSHEY_COMPLEX;
-            double font_scale = 2;
-            int thickness = 1;
-            int baseline;
+                int font_face = cv::FONT_HERSHEY_COMPLEX;
+                double font_scale = 2;
+                int thickness = 1;
+                int baseline;
 
-            cv::Size text_size = cv::getTextSize(text, font_face, font_scale, thickness, &baseline);
+                cv::Size text_size = cv::getTextSize(text, font_face, font_scale, thickness, &baseline);
 
-            cv::Point origin;
-            origin.x = (x->color_map).cols - text_size.width;
-            origin.y = (x->color_map).rows - text_size.height;
-            cv::putText((x->color_map), text, origin, font_face, font_scale, cv::Scalar(0, 255, 255), thickness, 8, 0);
+                cv::Point origin;
+                origin.x = (x->color_map).cols - text_size.width;
+                origin.y = (x->color_map).rows - text_size.height;
+                cv::putText((x->color_map), text, origin, font_face, font_scale, cv::Scalar(0, 255, 255), thickness, 8, 0);
+            }
 
-            imshow("Video", (x->color_map));
+            imshow("Camera_Video", (x->color_map));
 		}
         delete x;
         if (this->running == false) {
@@ -328,7 +331,7 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
         }
 		waitKey(30);
 	}
-    destroyWindow("Video");
+    destroyWindow("Camera_Video");
 	capture.release();
 
     return Napi::Number::New(info.Env(), 0);
