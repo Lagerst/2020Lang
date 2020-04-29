@@ -309,6 +309,11 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 
             if (DotNetMode) {
                 std::string text = std::to_string(x->getvalue());
+                string::size_type position = text.find(".");
+                if (position != text.npos && position + 3 <= text.length())
+                    text = text.substr(0, position + 3);
+                else
+                    break;
 
                 int font_face = cv::FONT_HERSHEY_COMPLEX;
                 double font_scale = 2;
