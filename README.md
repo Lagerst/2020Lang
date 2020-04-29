@@ -76,15 +76,15 @@ Include :
 
 	An electron App using Napi & opencv to read local camera
 
-		=> Camera
+        => Camera
 
 	Answers to Introduction of JS: javascripting
 
-		=> JavaScripting
+        => JavaScripting
 
 	Features of node
 
-		=> node
+        => node
 
 # Java
 
