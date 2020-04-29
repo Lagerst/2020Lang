@@ -58,11 +58,33 @@ For reference only
 	 *
 	 *
 	 */
-	 
+
 
 # Latex
 
 Some Pet Projects
+
+# JavaScript
+
+Learning Process of JavaScript, node and electron.
+
+Include :
+
+    A Simple Pet Project of Electron Framework & Napi
+
+        => Electron
+
+	An electron App using Napi & opencv to read local camera
+
+		=> Camera
+
+	Answers to Introduction of JS: javascripting
+
+		=> JavaScripting
+
+	Features of node
+
+		=> node
 
 # Java
 
