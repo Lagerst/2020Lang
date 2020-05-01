@@ -292,7 +292,7 @@ Napi::Value Cam::UpdateImage(const Napi::CallbackInfo& info) {
 	if (!capture.isOpened())
 		return Napi::Number::New(info.Env(), -3);
 
-	while (1)
+	while (true)
 	{
         MapStorage* x = new MapStorage();
 		capture >> x->color_map;

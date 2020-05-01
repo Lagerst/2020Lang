@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Camera_Standard</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/standard.css">
+</head>
+<body>
+    <div style="text-align:center">
+        <div id="box" style="width: 640px;height: 480px;"></div>
+    </div>
+    <script src="renderer.js"></script>
+    <script>
+        var myChart=echarts.init(document.getElementById("box"));
+        readJSON("./standard.json", function(res){
+            var data = JSON.parse(res);
+            console.log(data);
+            var option={
+                title:{
+                    text:'标准误差'
+                },
+                toolbox:{
+                    show:true,
+                    feature:{
+                        saveAsImage:{
+                            show:true
+                        }
+                    }
+                },
+                legend:{
+                    data:['自定义标准测量线','HQ标准测量线', 'FZ标准测量线', '标准线'],
+                    selected:{
+                        '自定义标准测量线': false,
+                        'HQ标准测量线': true,
+                        'FZ标准测量线': false,
+                        '标准线': false
+                    }
+                },
+                xAxis:{
+                    data:data["std"]
+                },
+                yAxis:{},
+                series:[{
+                    name:'自定义标准测量线',
+                    type:'line',
+                    data: data["std"],
+                    itemStyle : { normal: {label : {show: true}}},
+                    smooth: true
+                },{
+                    name:'HQ标准测量线',
+                    type:'line',
+                    data:data["HQ"],
+                    itemStyle : { normal: {label : {show: true}}},
+                    smooth: true
+                },{
+                    name:'FZ标准测量线',
+                    type:'line',
+                    data:data["FZ"],
+                    itemStyle : { normal: {label : {show: true}}},
+                    smooth: true
+                },{
+                    name:'标准线',
+                    type:'line',
+                    data:data["std"],
+                    itemStyle : { normal: {label : {show: true}}},
+                    smooth: true
+                }]
+            };
+            myChart.setOption(option);
+        });
+    </script>
+</body>
+</html>
