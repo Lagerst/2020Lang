@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, BrowserView, ipcMain, contentTracing, Notification, powerMonitor, screen, systemPreferences, nativeTheme, TouchBar, Menu, Tray } = require('electron')
+const {app, BrowserWindow, BrowserView, ipcMain, contentTracing, Notification, powerMonitor, screen, systemPreferences, nativeTheme, TouchBar, Menu, Tray, MenuItem } = require('electron')
 const path = require('path')
 var calculator = require("./build/Release/calculator.node");
 
@@ -84,6 +84,8 @@ app.on('ready', () => {
   TouchBar_configure();
 
   tray();
+  
+  MenuPopup();
 
   //session();
 })
@@ -106,7 +108,7 @@ function tray() {
   tray.setContextMenu(contextMenu)
 }
 
-function advanced_tools_set() {
+function advanced_tools_set() {2
   console.log("<********************************");
   console.log(os.type());
   if (os.type() == "Darwin") {
@@ -234,20 +236,38 @@ function _calculator(x) {
   return JSON.stringify(obj);
 }
 
-//主进程Menu SetTimeout
-/*
-setTimeout( () => {
+//主进程Menu
+function MenuPopup() {
   const template =  [
-    {label: "label1"},
-    {label: "label2"},
-    {role:   "undo"},
-    {type:   "separator"}
-  ];
+    {
+      label: "",
+      role: 'TODO'
+    },
+    
+    {
+        label: "File",
+    
+        submenu: [
+          {
+            label: 'Add Item',
+          },
+          {
+          label: 'Clear Items'
+          }
+        ]
+    }
+    
+    ];
+  if (process.platform == 'darwin') {
+    template.unshift({label: ''});
+}
   const menu = Menu.buildFromTemplate(template);
+
+  //Sets menu as the application menu on macOS. On Windows and Linux, the menu will be set as each window's top menu.
   Menu.setApplicationMenu(menu);
+  
   menu.popup();
-}, 2000)
-*/
+}
 
 //主进程BrowserView
 function NewPageOpen() {
