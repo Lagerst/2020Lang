@@ -12,10 +12,6 @@ Include :
 
         => Rocket_Server
 
-    Some Answers to LeetCode Problems or Other OJ
-
-        => Leetcode_Rust
-
 Reference :
 
     Offical Programming Guide && Documentation
@@ -23,6 +19,8 @@ Reference :
     https://github.com/anonymousGiga/learn_rust
 
 # Algorithm Repository
+
+Can be found in Cpp/*.*
 
 For reference only
 
