@@ -6,7 +6,7 @@ using namespace std;
 ifstream filecin("filein.txt");
 ofstream filecout("fileout.txt");
 
-int swap_s(int *a; int *b) {
+int swap_s(int *a, int *b) {
   int temp;
   temp = *a;
   *a = *b;
