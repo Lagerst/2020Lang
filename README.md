@@ -18,9 +18,9 @@ Reference :
 
     https://github.com/anonymousGiga/learn_rust
 
-# Algorithm Repository
+# Cpp
 
-Can be found in Cpp/*.*
+A Algorithm Repository and something more
 
 For reference only
 
