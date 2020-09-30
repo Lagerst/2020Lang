@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #define scanf scanf_s
 
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 
 using namespace std;
 
