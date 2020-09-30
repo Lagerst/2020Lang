@@ -1,5 +1,5 @@
 #include <iostream>
-//不定长度整数输入
+
 using namespace std;
 
 int main(void) {
