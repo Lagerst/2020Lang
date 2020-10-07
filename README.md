@@ -1,6 +1,6 @@
 # Cpp
 
-A Algorithm Repository and something more
+Algorithm Repository and something more
 
 For reference only
 
