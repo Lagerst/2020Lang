@@ -1,3 +1,3 @@
 git add .
-git commit -m "%date% %time%"
+git commit -m "auto-pushed on %date% %time%"
 git push origin master
