@@ -1,23 +1,3 @@
-# Rust
-
-Learning Process of Rust Lang.
-
-Include :
-
-    Language Features of Rust && Examples
-
-        => Hello_Rust && Advanced_Rust
-
-    A Simple Rocket Server (under development)
-
-        => Rocket_Server
-
-Reference :
-
-    Offical Programming Guide && Documentation
-
-    https://github.com/anonymousGiga/learn_rust
-
 # Cpp
 
 A Algorithm Repository and something more
@@ -57,10 +37,25 @@ For reference only
 	 *
 	 */
 
+# Rust
 
-# Latex
+Learning Process of Rust Lang.
 
-Some Pet Projects
+Include :
+
+    Language Features of Rust && Examples
+
+        => Hello_Rust && Advanced_Rust
+
+    A Simple Rocket Server (under development)
+
+        => Rocket_Server
+
+Reference :
+
+    Offical Programming Guide && Documentation
+
+    https://github.com/anonymousGiga/learn_rust
 
 # JavaScript
 
@@ -83,6 +78,10 @@ Include :
 	Features of node
 
         => node
+
+# Latex
+
+Some Pet Projects
 
 # Java
 
