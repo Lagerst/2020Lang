@@ -4,7 +4,7 @@ A algorithm repository and something more;
 
 Accuracy, quality and promptness are not guaranteed;
 
-For Reference Only.
+FOR REFERENCE ONLY
 
 	 /***
 	 *                                         ,s555SB@@&
