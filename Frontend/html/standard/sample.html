@@ -46,8 +46,7 @@
     <!--  -->
     <div>Ctrl + L</div>
 
-    <h1>表格</h1>
-    <!--  -->
+    <h1>表格标签</h1>
     <div>
         <table align="center" border="1" cellpadding="10" cellspacing="0" height="100">
             <thead>
@@ -68,6 +67,78 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <h1>列表标签</h1>
+    <h2>无序列表</h2>
+    <div>
+        <ul>
+            <li>Unordered 1</li>
+            <li>Unordered 2</li>
+            <li>Unordered 3, A container, put anything here</li>
+        </ul>
+    </div>
+    <h2>有序列表</h2>
+    <div>
+        <ol>
+            <li>Ordered 1</li>
+            <li>Ordered 2</li>
+            <li>Ordered 3, A container, put anything here</li>
+        </ol>
+    </div>
+    <h2>自定义列表</h2>
+    <div>
+        <dl>
+            <dt>dt 1</dt>
+                <dd>dd 1.1</dd>
+                <dd>dd 1.2</dd>
+                <dd>dd 1.3</dd>
+            <dt>dt 2</dt>
+                <dd>dd 2.1</dd>
+                <dd>dd 2.2</dd>
+                <dd>dd 2.3</dd>
+            <dt>dt 3</dt>
+                <dd>dd 3.1</dd>
+                <dd>dd 3.2</dd>
+                <dd>dd 3.3</dd>
+        </dl>
+    </div>
+
+    <h1>表单标签</h1>
+    <div> 
+        <form action="sample.html" method="POST" name="form1">
+            text: 
+                <br> <input type="text" /> <br>
+            radio: 
+                <br> <input type="radio" name="select" value="A" checked="checked" id="A"/> A
+                <br> <input type="radio" name="select" value="B" id="B"/> B <br>
+            submit:
+                <br> <input type="submit" /> <br>
+            reset:
+                <br> <input type="reset" /> <br>
+            button: (Invoke Javascript)
+                <br> <input type="button" value="Run_Javascript" /> <br>
+            file:
+                <br> <input type="file" /> </br>
+            label:
+                <br> <label for="A"> Check AAAAAAA </label> </br>
+                <label for="B"> Check BBBBBBB </label> </br>
+            select:
+                <select>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                    <option>E</option> 
+                </select> </br>
+            textarea:
+                <textarea name="" id="" cols="30" rows="10"> Default Text </textarea>
+        </form> 
+    </div>
+
+    <h1>Reference</h1>
+    <div>
+        https://developer.mozilla.org/zh-CN/
     </div>
 </body>
 </html>
