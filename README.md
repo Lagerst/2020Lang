@@ -1,10 +1,10 @@
 # Cpp
 
-Algorithm Repository and Something More
+A algorithm repository and something more;
 
-Accuracy, Quality and promptness are not guaranteed
+Accuracy, quality and promptness are not guaranteed;
 
-For Reference Only
+For Reference Only.
 
 	 /***
 	 *                                         ,s555SB@@&
