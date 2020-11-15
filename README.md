@@ -1,8 +1,10 @@
 # Cpp
 
-Algorithm Repository and something more
+Algorithm Repository and Something More
 
-For reference only
+Accuracy, Quality and promptness are not guaranteed
+
+For Reference Only
 
 	 /***
 	 *                                         ,s555SB@@&
@@ -44,17 +46,14 @@ Learning Process of Rust Lang.
 Include :
 
     Language Features of Rust && Examples
-
         => Hello_Rust && Advanced_Rust
 
     A Simple Rocket Server (under development)
-
         => Rocket_Server
 
 Reference :
 
     Offical Programming Guide && Documentation
-
     https://github.com/anonymousGiga/learn_rust
 
 # JavaScript
@@ -64,29 +63,13 @@ Learning Process of JavaScript, node and electron.
 Include :
 
     A Simple Pet Project of Electron Framework & Napi
-
         => Electron
 
-	An electron App using Napi & opencv to read local cameras
-
+	An electron App using Napi & opencv to read from local cameras
         => Camera
 
 	Answers to Introduction of JS: javascripting
-
         => JavaScripting
 
 	Features of node
-
         => node
-
-# Latex
-
-Some Pet Projects
-
-# Java
-
-To be improved
-
-# Go
-
-To be improved
