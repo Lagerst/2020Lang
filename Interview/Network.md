@@ -76,3 +76,38 @@ OSI参考模型中最靠近用户的一层，是为计算机用户提供应用�
 快递寄送过程中的交通工具，就相当于我们的物理层，例如汽车，火车，飞机，船。
 
 ![TCP参考模型](../Resources/TCP.png "TCP参考模型")
+
+## TCP协议和UDP协议
+
+| 类型 | 协议名 |
+| TCP | FTP Telnet SMTP HTTP POP3 DNS |
+| UDP | TFTP SNMP DHCP DNS |
+
+### TCP协议
+
+#### TCP如何保证可靠传输，拥塞控制过程
+https://blog.csdn.net/caoyan_12727/article/details/52081329
+
+#### TCP为什么三次握手
+
+#### TCP问什么四次挥手
+
+### UDP协议
+
+### 综合
+
+##  HTTP
+
+###  HTTP1.0、1.1、2.0之间的区别
+
+###  HTTP与HTTPS之间的区别，HTTPS链接建立的过程
+
+###  对称加密算法和非对称加密算法
+
+###  HTTP请求种类
+
+###  HTTP常见响应状态码
+
+###  重定向和转发
+
+###  cookie和session
