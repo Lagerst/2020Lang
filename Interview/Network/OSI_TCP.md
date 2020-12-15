@@ -1,6 +1,6 @@
 # OSI七层模型与TCP/IP五层模型
 
-![OSI参考模型](Resources/OSI.png "OSI参考模型")
+![OSI参考模型](../Resources/OSI.png "OSI参考模型")
 
 ## 应用层
 
@@ -73,4 +73,4 @@ OSI参考模型中最靠近用户的一层，是为计算机用户提供应用�
 
 快递寄送过程中的交通工具，就相当于我们的物理层，例如汽车，火车，飞机，船。
 
-![TCP参考模型](Resources/TCP.png "TCP参考模型")
+![TCP参考模型](../Resources/TCP.png "TCP参考模型")
