@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"database/sql"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type User struct {
@@ -27,6 +29,8 @@ type User struct {
 // 	return group.returnObj()
 // }
 
+var db, err = sql.Open("mysql", "root:1234@/users?charset=utf8")
+
 func Handle(r *gin.Engine, httpMethods []string, relativePath string, handlers ...gin.HandlerFunc) gin.IRoutes {
 	var routes gin.IRoutes
 	for _, httpMethod := range httpMethods {
@@ -35,7 +39,33 @@ func Handle(r *gin.Engine, httpMethods []string, relativePath string, handlers .
 	return routes
 }
 
+func AddUserInDataBase(user User) []User {
+	fmt.Println("Add::received usename: " + user.Name)
+	fmt.Println("Add::received password: " + user.Password)
+	return GetUsersInDataBase()
+}
+
+func GetUsersInDataBase() []User {
+	var id uint64
+    var name string
+    var password string
+    rows, err := db.Query("select user_id, user_name, user_password from userinfo")
+    if err != nil {
+        fmt.Println(err)
+	}
+	users := []User{}
+    for rows.Next() {
+        rows.Scan(&id, &name, &password)
+		users = append(users, User{id, name, password});
+    }
+    defer rows.Close()
+	return users
+}
+
 func main() {
+	if err != nil {
+		fmt.Println(err)
+	}
 	users := []User{{ID: 0, Name: "张三", Password: ""}, {ID: 1, Name: "李四", Password: ""}}
 	var id uint64 = 2
 	r := gin.Default()
@@ -45,33 +75,27 @@ func main() {
 		})
 	})
 	r.GET("/GetUsers", func(context *gin.Context) {
-		context.JSON(200, users)
+		context.JSON(200, GetUsersInDataBase())
 	})
 	r.GET("/AddUser", func(context *gin.Context) {
 		if (context.Query("username") != "" && context.Query("password") != "") {
-			users = append(
-				users, 
-				User{
-					ID: id, 
-					Name: context.Query("username"), 
-					Password: context.Query("password")})
-			id++
+			context.JSON(200, AddUserInDataBase(User{
+				ID: 0,
+				Name: context.Query("username"),
+				Password: context.Query("password")}))
+		} else {
+			context.JSON(200, "AddUser Fail: Invalid Argument;")
 		}
-		context.JSON(200, users)
 	})
 	r.POST("/AddUser", func(context *gin.Context) {
-		fmt.Println("received usename: " + context.PostForm("username"))
-		fmt.Println("received password: " + context.PostForm("password"))
-		if (context.PostForm("username") != "" && context.PostForm("password") != "") {
-			users = append(
-				users, 
-				User{
-					ID: id, 
-					Name: context.PostForm("username"), 
-					Password: context.PostForm("password")})
-			id++
+		if (context.Query("username") != "" && context.Query("password") != "") {
+			context.JSON(200, AddUserInDataBase(User{
+				ID: 0,
+				Name: context.Query("username"),
+				Password: context.Query("password")}))
+		} else {
+			context.JSON(200, "AddUser Fail: Invalid Argument;")
 		}
-		context.JSON(200, users)
 	})
 	r.GET("/GetNameById/:id", func(context *gin.Context) {
 		id := context.Param("id")
@@ -100,4 +124,6 @@ func main() {
 	})
 
 	r.Run(":8080")
+
+	defer db.Close()
 }
