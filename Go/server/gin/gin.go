@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"./service"
+	"github.com/gin-gonic/gin"
 )
 
 // // Any registers a route that matches all the HTTP methods.
@@ -40,20 +40,20 @@ func main() {
 		context.JSON(200, service.GetUsersInDataBase())
 	})
 	r.GET("/AddUser", func(context *gin.Context) {
-		if (context.Query("username") != "" && context.Query("password") != "") {
+		if context.Query("username") != "" && context.Query("password") != "" {
 			context.JSON(200, service.AddUserInDataBase(service.User{
-				ID: 0,
-				Name: context.Query("username"),
+				ID:       0,
+				Name:     context.Query("username"),
 				Password: context.Query("password")}))
 		} else {
 			context.JSON(200, "AddUser Fail: Invalid Argument;")
 		}
 	})
 	r.POST("/AddUser", func(context *gin.Context) {
-		if (context.Query("username") != "" && context.Query("password") != "") {
+		if context.Query("username") != "" && context.Query("password") != "" {
 			context.JSON(200, service.AddUserInDataBase(service.User{
-				ID: 0,
-				Name: context.Query("username"),
+				ID:       0,
+				Name:     context.Query("username"),
 				Password: context.Query("password")}))
 		} else {
 			context.JSON(200, "AddUser Fail: Invalid Argument;")
@@ -62,7 +62,7 @@ func main() {
 	r.GET("/GetNameById/:id", func(context *gin.Context) {
 		context.String(200, service.GetNameByIdInDataBase(context.Param("id")))
 	})
-	r.GET("/GetIdByName/*username", func (context *gin.Context)  {
+	r.GET("/GetIdByName/*username", func(context *gin.Context) {
 		context.String(200, service.GetIdByNameInDataBase(context.Param("username")[1:]))
 	})
 	Handle(r, []string{"GET", "POST"}, "/AddDefaultUser", func(context *gin.Context) {

@@ -7,11 +7,11 @@ import (
 )
 
 func main() {
-    http.HandleFunc("/",Index)
+	http.HandleFunc("/", Index)
 
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func Index(w http.ResponseWriter, r *http.Request){
-    fmt.Fprint(w,"Hi, This is a simple server.")
+func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hi, This is a simple server.")
 }
