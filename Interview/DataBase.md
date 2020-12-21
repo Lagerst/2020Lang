@@ -18,9 +18,56 @@ varchar(n)
 
     辅助索引
 
-        create index idx_t_bcd on t(b, c, d)
+        create index idx_t_bcd on t(b, c, d) 联合索引，按序排序
+        辅助索引找到后回到主键索引取数据 或 全表暴力搜索
+
+        explain关键字
+
+    比较规则
+
+        bin, 字符集......
+
+    使用索引
+
+        最左前缀原则
 
 ## 事务4大特性 mysql如何保证实现
+
+    Atomicity 原子性
+        一系列操作要么都成功，要么都失败
+
+    Isolation 隔离型
+        事务之间相互隔离，互不影响
+
+    Consistency
+        总数据的一致性，总数据保持既定的约束
+
+    Durability
+        记录永久保存
+
+    事务
+
+        autocommit 事务自动提交
+
+        START TRANSACTION;
+        ...
+        commit;
+
+    隐式提交
+
+        特定语句执行会自动commit (定义或修改数据库对象的数据定义语言)
+        ALTER TABLE, CREATE USER, DROP USER, GRANT, RENAME USER, SET PASSWORD,
+        LOCK TABLES, UNLOCK TABLES,
+        LOAD DATA,
+        ANALYZE TABLE, CACHE INDEX, CHECK TABLE, FLUSH, LOAD INDEX INTO CACHE, OPTIMIZE TABLE
+
+    保存点
+
+        只回滚到保存点
+
+        SAVEPOINT 保存点名称;
+        ROLLBACK [WORK] TO [SAVEPOINT] 保存点名称;
+        RELEASE SAVEPOINT 保存点名称;
 
 ## 事务隔离级别
 

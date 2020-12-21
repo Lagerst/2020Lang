@@ -1,3 +1,7 @@
+# About
+
+Algorithm Repository and Learning Process. Update on an irregular basis. For reference only.
+
 # Cpp
 
 A algorithm repository and something more;
