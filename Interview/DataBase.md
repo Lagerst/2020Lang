@@ -18,7 +18,14 @@ varchar(n)
 
     辅助索引
 
-        create index idx_t_bcd on t(b, c, d)
+        create index idx_t_bcd on t(b, c, d) 联合索引，按序排序
+        辅助索引找到后回到主键索引取数据 或 全表暴力搜索
+
+        explain关键字
+
+    比较规则
+
+        bin, 字符集......
 
 ## 事务4大特性 mysql如何保证实现
 
@@ -34,6 +41,13 @@ varchar(n)
 
 Innodb page size default = 16384/1024 = 16KB
 Row Format :
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9f8948f (feat: add prep for interview)
+>>>>>>> edeb160 (feat: add prep for interview)
     Dynamic
         完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
 
