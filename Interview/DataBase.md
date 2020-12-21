@@ -1,5 +1,25 @@
 # DataBase
 
+varchar(n)
+    Capacity < 5.0.3 ? Unit = 字节 :(else) Unit = 字符
+
+## 索引
+
+    目录页 - 页目录 - 页 - 二分法
+    根据 主键 - (is null) 唯一索引 - (if null) 默认生成rowid 建立 B+树
+
+    建议自增id作为主键，提升存储效率（使用更少的页作为索引）
+
+    建立过程
+
+        第一页
+
+        copy第一页 -> 开辟第二页，第一页改为目录页（起始页不变）
+
+    辅助索引
+
+        create index idx_t_bcd on t(b, c, d)
+
 ## 事务4大特性 mysql如何保证实现
 
 ## 事务隔离级别
@@ -11,6 +31,18 @@
 ## 隔离级别的单位
 
 ## 存储引擎Innodb和Myisam
+
+Innodb page size default = 16384/1024 = 16KB
+Row Format :
+    Dynamic
+        完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
+
+    Compact
+        变长字段长度列表 NULL标志位 记录头信息 列1 列2 ...
+        2 Bytes         1 Byte    max to 65532Bytes
+
+        Optional:
+            部分数据 + 下一页地址
 
 ## Innodb锁机制，行锁，表锁，意向锁
 
