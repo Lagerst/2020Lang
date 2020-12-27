@@ -79,17 +79,17 @@
 
 ## 存储引擎Innodb和Myisam
 
-Innodb page size default = 16384/1024 = 16KB
-Row Format :
-    Dynamic
-        完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
+    Innodb page size default = 16384/1024 = 16KB
+    Row Format :
+        Dynamic
+            完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
 
-    Compact
-        变长字段长度列表 NULL标志位 记录头信息 列1 列2 ...
-        2 Bytes         1 Byte    max to 65532Bytes
+        Compact
+            变长字段长度列表 NULL标志位 记录头信息 列1 列2 ...
+            2 Bytes         1 Byte    max to 65532Bytes
 
-        Optional:
-            部分数据 + 下一页地址
+            Optional:
+                部分数据 + 下一页地址
 
 ## Innodb锁机制，行锁，表锁，意向锁
 
