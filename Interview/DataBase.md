@@ -1,12 +1,12 @@
 # DataBase
 
-varchar(n)
-    Capacity < 5.0.3 ? Unit = 字节 :(else) Unit = 字符
+    varchar(n)
+        Capacity < 5.0.3 ? Unit = 字节 :(else) Unit = 字符
 
 ## 索引
 
     目录页 - 页目录 - 页 - 二分法
-    根据 主键 - (is null) 唯一索引 - (if null) 默认生成rowid 建立 B+树
+    根据 主键 - (if null) 唯一索引 - (if null) 默认生成rowid 建立 B+树
 
     建议自增id作为主键，提升存储效率（使用更少的页作为索引）
 
@@ -81,13 +81,6 @@ varchar(n)
 
 Innodb page size default = 16384/1024 = 16KB
 Row Format :
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 9f8948f (feat: add prep for interview)
->>>>>>> edeb160 (feat: add prep for interview)
     Dynamic
         完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
 
