@@ -81,6 +81,13 @@ varchar(n)
 
 Innodb page size default = 16384/1024 = 16KB
 Row Format :
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9f8948f (feat: add prep for interview)
+>>>>>>> edeb160 (feat: add prep for interview)
     Dynamic
         完全的行溢出的方式，在数据页中只存放20个字节的指针，指向下一页地址
 
