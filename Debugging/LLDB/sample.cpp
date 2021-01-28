@@ -7,6 +7,7 @@
 
 #ifndef BASE_ATOMIC_REF_COUNT_H_
 #define BASE_ATOMIC_REF_COUNT_H_
+#include <exception>
 #include <thread>
 #include <atomic>
 #include "iostream"
@@ -60,6 +61,10 @@ class AtomicRefCount {
     return ref_count_.load(std::memory_order_relaxed);
   }
 
+  int NoReached() const{
+    throw(std::exception());
+  }
+
  private:
   std::atomic_int ref_count_;
 };
@@ -85,4 +90,5 @@ int main() {
     t1.join();
     t2.join();
     std::cout << value.IsZero() << std::endl;
+    value.NoReached();
 }

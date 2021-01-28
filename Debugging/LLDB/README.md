@@ -74,3 +74,16 @@
     计算对象数据类型表达式
     (lldb) expr -o --对象.属性
     (lldb) po 对象.属性
+
+# frame 帧
+
+    切换帧
+    (lldb) frame select 4
+
+# 线程
+
+    查看所有线程
+    (lldb) thread backtrace all
+
+    切换线程
+    (lldb) thread select 3
