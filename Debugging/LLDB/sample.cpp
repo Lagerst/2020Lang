@@ -11,6 +11,7 @@
 #include <thread>
 #include <atomic>
 #include "iostream"
+#include "unistd.h"
 namespace base {
 
 class AtomicRefCount {
@@ -73,6 +74,10 @@ class AtomicRefCount {
 
 #endif  // BASE_ATOMIC_REF_COUNT_H_
 
+void Inc(int& x, int mod) {
+  x = (x + 1) % mod;
+}
+
 int main() {
     base::AtomicRefCount value;
     int x = 0;
@@ -90,5 +95,8 @@ int main() {
     t1.join();
     t2.join();
     std::cout << value.IsZero() << std::endl;
+    while (true) {
+      Inc(x, 10000);
+    }
     value.NoReached();
 }

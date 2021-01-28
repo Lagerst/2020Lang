@@ -1,19 +1,48 @@
 # LLDB
 
-    g++ sample.cpp -o sample.o -std=c++11
+    g++ -g sample.cpp -o sample.o -std=c++11
 
 ## Start
 
+    调试可执行文件
     lldb sample.o
+
+    调试运行时带参数的可执行文件
+    lldb -- sample.o 1 2 3
+
+    调试某个正在运行中的进程
+    lldb
+    (lldb) process attach --pid 9939
+    or
+    (lldb) process attach --name Safari
 
 ## 断点
 
     设置断点
+    (lldb) breakpoint set --file sample.cpp --line 82
     (lldb) b base::AtomicRefCount::Decrement
+
+    根据函数名下断点
+    # C函数
+    (lldb) breakpoint set --name main
+    # C++类方法
+    (lldb) breakpoint set --method foo
+    # Objective-C选择器
+    (lldb) kpoint set --selector alignLeftEdges:
+
+    根据某个函数调用语句下断点(Objective-C比较有用)
+    # lldb有一个最小子串匹配算法，会知道应该在哪个函数那里下断点
+    (lldb) breakpoint set -n "-[SKTGraphicView alignLeftEdges:]"
 
     查看断点
     (lldb) breakpoint list
     (lldb) br l
+
+    禁用断点
+    (lldb) breakpoint disable 2
+
+    启用断点
+    (lldb) breakpoint Enable 2
 
     删除断点
     (lldb) breakpoint delete x
@@ -57,6 +86,7 @@
     (lldb) frame variable bar
     (lldb) fr v bar
     (lldb) p bar
+    (lldb) po &bar
 
     查看全局变量 (全部)
     (lldb) target variable
@@ -87,3 +117,11 @@
 
     切换线程
     (lldb) thread select 3
+
+# 查看代码
+
+    查看当前代码段
+    (lldb) l or list
+
+    查看某一函数的代码
+    (lldb) list main
