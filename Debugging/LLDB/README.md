@@ -28,7 +28,7 @@
     # C++类方法
     (lldb) breakpoint set --method foo
     # Objective-C选择器
-    (lldb) kpoint set --selector alignLeftEdges:
+    (lldb) breakpoint set --selector alignLeftEdges:
 
     根据某个函数调用语句下断点(Objective-C比较有用)
     # lldb有一个最小子串匹配算法，会知道应该在哪个函数那里下断点
