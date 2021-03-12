@@ -131,16 +131,16 @@ void process(int sockfd){
         SA * local;
         ssize_t s;
         socklen_t len;
-        //½ÓÊÕÊı¾İ£¨ÃèÊö·û£¬·Åµ½ÄÄ£¬ÄÚ´æ´óĞ¡£¬×èÈû£¬´ÓÄÄÀ´£¬Êı¾İ´óĞ¡£©
+        //æ¥æ”¶æ•°æ®ï¼ˆæè¿°ç¬¦ï¼Œæ”¾åˆ°å“ªï¼Œå†…å­˜å¤§å°ï¼Œé˜»å¡ï¼Œä»å“ªæ¥ï¼Œæ•°æ®å¤§å°ï¼‰
         s = recvfrom(sockfd,buff,1023,0,(struct sockaddr*)&local,&len);
         struct sockaddr_in *sock = ( struct sockaddr_in*)&local;
         int port = ntohs(sock->sin_port);
-        #ifdef __MINGW32__  //windowsÉÏ´òÓ¡·½Ê½
+        #ifdef __MINGW32__  //windowsä¸Šæ‰“å°æ–¹å¼
             printf("ip:port  %s : %d",inet_ntoa(sock->sin_addr),port);
-        #else              //linuxÉÏ´òÓ¡·½Ê½
+        #else              //linuxä¸Šæ‰“å°æ–¹å¼
             struct in_addr in  = sock->sin_addr;
-            char str[INET_ADDRSTRLEN];   //INET_ADDRSTRLENÕâ¸öºêÏµÍ³Ä¬ÈÏ¶¨Òå 16
-            //³É¹¦µÄ»°´ËÊ±IPµØÖ·±£´æÔÚstr×Ö·û´®ÖĞ¡£
+            char str[INET_ADDRSTRLEN];   //INET_ADDRSTRLENè¿™ä¸ªå®ç³»ç»Ÿé»˜è®¤å®šä¹‰ 16
+            //æˆåŠŸçš„è¯æ­¤æ—¶IPåœ°å€ä¿å­˜åœ¨strå­—ç¬¦ä¸²ä¸­ã€‚
             inet_ntop(AF_INET,&in, str, sizeof(str));
         #endif
         printf("Server Receive Message from ip:port  %s : %d:\n      %s",str,port,buff);
