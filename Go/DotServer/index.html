@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>网点测量工具</title></head>
+  
+  <body>
+    <div>
+      <h4>网点测量工具</h4>
+      <input id="file" type="file" name="image" onchange="updatePicture()"/>
+      <input type="button" value="开始测量" onclick="uploadFile()"/>
+    </div>
+    <div>
+      <img id="img" name="img" src=""  alt="Dot Pic" width="400" style="visibility: hidden;"/>
+    </div>
+    <footer>
+      <p>CopyRight © 2021 南京金印龙智能技术有限公司</p>
+    </footer>
+    <script>
+      function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL!=undefined) {    // basic
+          url = window.createObjectURL(file);
+        } else if (window.URL!=undefined) {         // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL!=undefined) {   // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+      }
+      function updatePicture() {
+        document.getElementById('img').src = getObjectURL(document.getElementById('file').files[0]);
+        document.getElementById('img').style = "visibility: visible;";
+      }
+      function uploadFile() {
+        const file = document.getElementById('file').files[0];
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            alert(xhr.responseText);
+          }
+        };
+        xhr.send(file);
+      }
+    </script>
+  </body>
+
+</html>
