@@ -12,7 +12,7 @@ TaskWithTimeToExecute::TaskWithTimeToExecute(std::function<void()> func,
 }
 
 bool operator<(const TaskWithTimeToExecute& a, const TaskWithTimeToExecute& b) {
-  return a.second < b.second;
+  return a.second > b.second;
 }
 
 Timer::Timer() {
@@ -32,8 +32,8 @@ void Timer::SetDelayedTask(std::function<void()> task, int delay_millisecond) {
   size_t current_snapshot =
       GetCurrentTimeInMilliSeconds() + delay_millisecond - benchmark_;
   unsigned char hash = current_snapshot / 1000 % buckets_;
-  std::cout << "Task with delay = " << current_snapshot
-            << " is put into hash = " << int(hash) << std::endl;
+  // std::cout << "Task with delay = " << current_snapshot
+  //           << " is put into hash = " << int(hash) << std::endl;
   std::lock_guard<std::mutex> locker((*clock_locker_)[hash]);
   (*clock_)[hash].push(
       TaskWithTimeToExecute(task, current_snapshot));
@@ -45,8 +45,8 @@ void Timer::Run() {
     {
       std::lock_guard<std::mutex> locker((*clock_locker_)[bucket]);
       while (!(*clock_)[bucket].empty() &&
-             (*clock_)[bucket].top().second >=
-                 GetCurrentTimeInMilliSeconds() - benchmark_) {
+             (*clock_)[bucket].top().second <=
+                 (bucket + round * buckets_ + 1) * 1000) {
         SleepTo((*clock_)[bucket].top().second);
         thread_pool_->PostTask((*clock_)[bucket].top().first);
         (*clock_)[bucket].pop();
@@ -63,7 +63,7 @@ void Timer::Run() {
 
 void Timer::SleepTo(size_t to) {
   int time_to_sleep = to - (GetCurrentTimeInMilliSeconds() - benchmark_);
-  std::cout << "thread sleep to " << to <<", should sleep " << time_to_sleep << std::endl;
+  //std::cout << "thread sleep to " << to <<", should sleep " << time_to_sleep << std::endl;
   if (time_to_sleep > 0) {
     std::this_thread::sleep_for(std::chrono::milliseconds(time_to_sleep));
   }
@@ -78,5 +78,5 @@ size_t Timer::GetCurrentTimeInMilliSeconds() {
 }
 
 void Timer::WaitTillEnd() {
-  // thread_pool_->JoinAllThread();
+  thread_pool_->JoinAllThreads();
 }

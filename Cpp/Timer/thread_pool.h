@@ -2,12 +2,13 @@
 #include <list>
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 
 class ThreadPool {
  public:
   void ThreadRunningSequence();
   void PostTask(std::function<void()>);
-  void JoinAllThread();
+  void JoinAllThreads();
   ThreadPool(int num);
   ~ThreadPool();
 
@@ -17,5 +18,5 @@ class ThreadPool {
   std::mutex tasks_mutex_, tasks_invoker_;
   std::condition_variable tasks_available_;
   std::list<std::thread*> pooled_threads_;
-  std::list<std::function<void()>> tasks_;
+  std::list<std::function<void()>>* tasks_;
 };
