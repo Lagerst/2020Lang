@@ -10,16 +10,17 @@ ThreadPool::ThreadPool(int num) {
   maximum_threads_number_ = 5;
   minimum_threads_number_ = 2;
   auto_resize_payload_ = 1;
+  int threads_number;
   if (num <= 0) {
     auto_resize_ = true;
-    threads_number_ = minimum_threads_number_;
+    threads_number = minimum_threads_number_;
   } else {
-    threads_number_ = num;
+    threads_number = num;
   }
-  std::cout << "Thread pool number set to " << threads_number_ << "."
+  std::cout << "Thread pool number set to " << threads_number << "."
             << std::endl;
   tasks_ = new std::list<std::function<void()>>();
-  for (int i = 0; i < threads_number_; ++i) {
+  for (int i = 0; i < threads_number; ++i) {
     std::thread* t = new std::thread(&ThreadPool::ThreadRunningSequence, this);
     pooled_threads_.push_back(t);
   }
