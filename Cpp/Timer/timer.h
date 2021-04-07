@@ -9,16 +9,16 @@
 class TaskWithTimeToExecute {
  public:
   TaskWithTimeToExecute(std::function<void()> func, size_t time_out);
-  std::function<void()> first;
-  size_t second;
+  std::function<void()> task;
+  size_t execute_time;
 };
 
 class Timer {
  public:
   Timer();
   ~Timer();
-  void SetDelayedTask(std::function<void()> task, int delay_millisecond);
-  void SleepTo(size_t to);
+  void SetDelayedTask(std::function<void()> task, size_t delay_millisecond);
+  void SleepTo(size_t wake_time);
   void WaitTillEnd();
 
  private:

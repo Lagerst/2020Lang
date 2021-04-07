@@ -4,16 +4,22 @@
 #include <memory>
 #include <mutex>
 
+#define Min(a, b) (a < b) ? a : b
+
 ThreadPool::ThreadPool(int num) {
+  maximum_threads_number_ = 5;
+  minimum_threads_number_ = 2;
+  auto_resize_payload_ = 1;
   if (num <= 0) {
     auto_resize_ = true;
-    thread_number_ = 1;
+    threads_number_ = minimum_threads_number_;
   } else {
-    thread_number_ = num;
+    threads_number_ = num;
   }
-  std::cout << "Thread pool num set to " << thread_number_ << "." << std::endl;
+  std::cout << "Thread pool number set to " << threads_number_ << "."
+            << std::endl;
   tasks_ = new std::list<std::function<void()>>();
-  for (int i = 0; i < thread_number_; ++i) {
+  for (int i = 0; i < threads_number_; ++i) {
     std::thread* t = new std::thread(&ThreadPool::ThreadRunningSequence, this);
     pooled_threads_.push_back(t);
   }
@@ -23,6 +29,7 @@ ThreadPool::~ThreadPool() = default;
 
 void ThreadPool::ThreadRunningSequence() {
   std::function<void()> first_task;
+  int queued_task;
   while (true) {
     {
       tasks_mutex_.lock();
@@ -34,9 +41,28 @@ void ThreadPool::ThreadRunningSequence() {
       }
       first_task = *tasks_->begin();
       tasks_->pop_front();
+      queued_task = tasks_->size();
       tasks_mutex_.unlock();
     }
+    if (auto_resize_) {
+      AutoResizeThreadPool(queued_task);
+    }
     first_task();
+  }
+}
+
+void ThreadPool::AutoResizeThreadPool(int queued_task) {
+  size_t suggested_num =
+      Min(queued_task / auto_resize_payload_, maximum_threads_number_);
+  if (suggested_num > pooled_threads_.size() && threads_mutex_.try_lock()) {
+    while (suggested_num > pooled_threads_.size()) {
+      std::thread* t =
+          new std::thread(&ThreadPool::ThreadRunningSequence, this);
+      pooled_threads_.push_back(t);
+      std::cout << "Thread pool number set to " << pooled_threads_.size() << "."
+                << std::endl;
+    }
+    threads_mutex_.unlock();
   }
 }
 
