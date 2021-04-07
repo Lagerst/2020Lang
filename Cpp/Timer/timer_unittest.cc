@@ -1,6 +1,8 @@
 #include "timer.h"
 #include "iostream"
+#if defined (WIN32)
 #include "Windows.h"
+#endif
 
 void Test(int x) {
   std::cout << "ExecutedXXX: " << x << std::endl;
